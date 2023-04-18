@@ -1,0 +1,54 @@
+User-agent: ia_archiver
+Disallow: /admin/
+Disallow: /install/
+Disallow: /setup/
+Disallow: /blocks/
+Disallow: /cgi-bin/
+Disallow: /images/
+Disallow: /includes/
+Disallow: /language/
+Disallow: /modules/
+Disallow: /scripts/
+Disallow: /themes/
+Disallow: /uploads/
+Disallow: /vendor/
+Disallow: /versions/
+Disallow: /admin.php
+Disallow: /config.php
+Disallow: /fbconfig.php
+Disallow: /nconfig.php
+Disallow: /ips.php
+Disallow: /trap.php
+
+User-agent: Baidu
+Disallow: /
+
+User-agent: *alexa*
+Disallow: /
+
+User-agent: Googlebot-Image
+Disallow: /
+
+User-agent: *
+Disallow: /admin/
+Disallow: /install/
+Disallow: /setup/
+Disallow: /blocks/
+Disallow: /cgi-bin/
+Disallow: /images/
+Disallow: /includes/
+Disallow: /language/
+Disallow: /modules/
+Disallow: /scripts/
+Disallow: /themes/
+Disallow: /uploads/
+Disallow: /vendor/
+Disallow: /versions/
+Disallow: /admin.php
+Disallow: /config.php
+Disallow: /fbconfig.php
+Disallow: /nconfig.php
+Disallow: /ips.php
+Disallow: /trap.php
+
+Sitemap: https://www.nuketitanium.coders.exchnage/xmls/sitemap/sitemap-index.xml
