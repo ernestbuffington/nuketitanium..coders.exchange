@@ -67,14 +67,14 @@ define('NUKE_FILE', true);
  * @date 04/10/2023 9:47 PM Ernest Allen Buffington
  */
 define('PHPBB_TITANIUM', '2.0.25');
-define('PHPBB_TITANIUM_LAST_UPDATE', 'Tuesday Jan 28th, 2023');
+define('PHPBB_TITANIUM_LAST_UPDATE', 'Wednesday Apr 19th, 2023');
 
 /* Adopted from Nuke Evo
  * Version Settings for Nuke Evolution Xtreme
  * @date 04/10/2023 9:47 PM Ernest Allen Buffington
  */
 define('NUKE_EVO', '2.0.9e');
-define('EVO_EDITION', 'Xtreme');
+define('EVO_EDITION', '(Evo Xtreme Edition)');
 define('EVO_VERSION', NUKE_EVO . ' ' . EVO_EDITION);
 define('CUR_EVO', 'NUKE_EVO');
 
@@ -83,7 +83,7 @@ define('CUR_EVO', 'NUKE_EVO');
  * @date 04/10/2023 9:47 PM Ernest Allen Buffington
  */
 define('NUKE_TITANIUM', '4.0.4');
-define('TITANIUM_EDITION', 'AN602');
+define('TITANIUM_EDITION', '(Titanium Edition)');
 define('TITANIUM_VERSION', NUKE_TITANIUM . ' ' . TITANIUM_EDITION);
 define('CUR_TITANIUM', 'NUKE_TITANIUM');
 
@@ -92,7 +92,7 @@ define('CUR_TITANIUM', 'NUKE_TITANIUM');
  * @date 04/10/2023 9:47 PM Ernest Allen Buffington
  */
 define('NUKE_PLATINUM', '3.0.0');
-define('PLATINUM_EDITION', 'AN602');
+define('PLATINUM_EDITION', '(Platinum Edition');
 define('PLATINUM_VERSION', NUKE_PLATINUM . ' ' . PLATINUM_EDITION);
 define('CUR_PLATINUM', 'NUKE_PLATINUM');
 
@@ -101,7 +101,7 @@ define('CUR_PLATINUM', 'NUKE_PLATINUM');
  * @date 04/10/2023 9:47 PM Ernest Allen Buffington
  */
 define('NUKE_RAVEN', 'x.x.x');
-define('RAVEN_EDITION', 'xxxxxxx');
+define('RAVEN_EDITION', '(Raven Edition)');
 define('RAVEN_VERSION', NUKE_RAVEN . ' ' . RAVEN_EDITION);
 define('CUR_RAVEN', 'NUKE_RAVEN');
 
@@ -110,6 +110,8 @@ define('NUKE_MOD', 'PHP-Nuke');
 define('NUKE_VERSION_CHECKING', 'https://phpnuke.coders.exchange/versions/nuke-version.json');
 define('NUKE_LIVE_FEED', 'https://phpnuke.coders.exchange/versions/nuke-live-feed.json');
 define('NUKE_DEVELOPER_FEED', 'https://phpnuke.coders.exchange/versions/feed.php');
+
+define('NUKE_EDITION', '(Titanium Edition)');
 
 // Get php file extension
 $phpEx = "php"; 
@@ -1137,11 +1139,11 @@ function blocks_visible($side): bool
 }
 
 /**
-* @get blocks information
-* @version 4.0.3
-* @cache zf1-future
-* @author Ernest Allen Buffington
-*/
+ * @get blocks information
+ * @version 4.0.3
+ * @cache zf1-future
+ * @author Ernest Allen Buffington
+ */
 function blocks($side, $count=false) 
 {
     global $prefix, $multilingual, $currentlang, $db, $userinfo, $cache;
@@ -1667,11 +1669,13 @@ function blog_signature($aid)
      # added for blog preview END     
 	 
 	 $aid  = '';
-	 
-	 if($name == 'Francisco Burzi')
+
+	 if($name == 'Francisco Burzi (Frank)') {
 	 $aid .= 'Adiós Cordialmente,<br />';				   
-     else	 
+	 } else {	 
      $aid .= 'Sincerely,<br />';
+	 }
+	 
      $aid .= $name.'<br />';				   				   
      $aid .= '<br />';				   
      $aid .= '<table border="0" cellpadding="0" cellspacing="0" width="100%" height="0">';
