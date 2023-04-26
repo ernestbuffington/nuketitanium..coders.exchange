@@ -189,7 +189,7 @@ function theindex($new_topic="0") {
 	include("footer.php");
 }
 
-function rate_article($sid, $score, $random_num="0", $gfx_check) {
+function rate_article($sid, $score, $random_num='0', $gfx_check='') {
 
  $r_cookie = [];
  $a = null;
@@ -357,7 +357,7 @@ function rate_article($sid, $score, $random_num="0", $gfx_check) {
 	}
 }
 
-function rate_complete($sid, $rated=0, $score) {
+function rate_complete($sid, $rated=0, $score='') {
 
  $db = null;
  $prefix = null;
