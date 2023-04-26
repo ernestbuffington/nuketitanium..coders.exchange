@@ -51,10 +51,8 @@
 if (!defined('IN_PHPBB')) define('IN_PHPBB', true);
 
 $aprvmUtil = new aprvmUtils();
-
-$aprvmUtil->modVersion = '1.6.0';
-
-$aprvmUtil->copyrightYear = '2001, 2005';
+$aprvmUtil->modVersion = '1.6.1';
+$aprvmUtil->copyrightYear = '2001, 2023';
 
 /****************************************************************************
 /** Module Setup
@@ -64,23 +62,16 @@ define('PRIVMSGS_ALL_MAIL', -1);
 $phpbb_root_path = '../';
 
 include($phpbb_root_path . 'extension.inc');
-
 include_once("pagestart.$phpEx");
-
 include_once('./../../../includes/bbcode.' . $phpEx);
 
 $aprvmUtil->find_lang_file('lang_admin_priv_msgs');
 
 if (!empty($setmodules))
-
 {
-
     $filename = basename(__FILE__);
-
     $module['Users']['Private_Messages'] = $filename;
-
     return;
-
 }
 /****************************************************************************
 /** Module Actual Start
@@ -123,19 +114,14 @@ foreach($params as $var => $default)
 /** Main Vars.
 /***************************************************************************/
 $status_message = '';
-
 $aprvmUtil->init();
-
 $topics_per_pg = max(1, $board_config['aprvmRows']); //Just in case someone manually changes it to be some crazy number, we'll show 1 row always
-
 $page_title = $lang['Private_Messages'];
-
 $order_types = array('DESC', 'ASC');
-
 $sort_types = array('privmsgs_date', 'privmsgs_subject', 'privmsgs_from_userid', 'privmsgs_to_userid', 'privmsgs_type');
-
 $pmtypes = array(PRIVMSGS_ALL_MAIL, PRIVMSGS_READ_MAIL, PRIVMSGS_NEW_MAIL, PRIVMSGS_SENT_MAIL, PRIVMSGS_SAVED_IN_MAIL, PRIVMSGS_SAVED_OUT_MAIL, PRIVMSGS_UNREAD_MAIL);
 
+$lang['msg_quote'] = 'QUOTE';
 /*
 // Private messaging defintions from constants.php for reference
 define('PRIVMSGS_READ_MAIL', 0);
@@ -150,21 +136,18 @@ define('PRIVMSGS_UNREAD_MAIL', 5);
 /** Setup some options
 /******************************************************************************************/
 $archive_text = ($board_config['aprvmArchive'] && $mode == 'archive') ? '_archive' : '';
-
 $pmtype_text = ($pmtype != PRIVMSGS_ALL_MAIL) ? "AND pm.privmsgs_type = $pmtype" : '';
 
 // Assign text filters if specified
 if ($filter_from != '')
 {
     $filter_from_user = $aprvmUtil->id_2_name($filter_from, 'reverse');
-
     $filter_from_text = (!empty($filter_from_user)) ? "AND pm.privmsgs_from_userid = $filter_from_user" : '';
 }
 
 if ($filter_to != '')
 {
     $filter_to_user = $aprvmUtil->id_2_name($filter_to, 'reverse');
-
     $filter_to_text = (!empty($filter_to_user)) ? "AND pm.privmsgs_to_userid = $filter_to_user" : '';
 }
 
@@ -212,7 +195,6 @@ switch($pmaction)
         {
             message_die(GENERAL_ERROR, $lang['Error_Posts_Table'], '', __LINE__, __FILE__);
         }
-
         $privmsg = $db->sql_fetchrow($result);
 
         /************************/
@@ -247,6 +229,7 @@ switch($pmaction)
         'L_TO' => $lang['To'],
         'L_FROM' => $lang['From'],
         'L_SENT_DATE' => $lang['Sent_Date'],
+	    'L_QUOTE' => $lang['msg_quote'],
         'L_PRIVATE_MESSAGES' => $aprvmUtil->modName)
         );
 
@@ -256,6 +239,7 @@ switch($pmaction)
         'FROM_IP' => ($board_config['aprvmIP']) ? ' : ('.decode_ip($privmsg['privmsgs_ip']).')' : '',
         'TO' => $aprvmUtil->id_2_name($privmsg['privmsgs_to_userid']),
         'DATE' => create_date($lang['DATE_FORMAT'], $privmsg['privmsgs_date'], $board_config['board_timezone']),
+	    'L_QUOTE' => $lang['msg_quote'],
         'MESSAGE' => $private_message)
         );
 
@@ -441,6 +425,7 @@ switch($pmaction)
             'FROM_IP' => ($board_config['aprvmIP']) ? '<br />('.decode_ip($row['privmsgs_ip']).')' : '',
             'U_VIEWMSG' => $onclick_url,
             'U_INLINE_VIEWMSG' => $view_url,
+		    'L_QUOTE' => $lang['msg_quote'],
             'DATE' => create_date($lang['DATE_FORMAT'], $row['privmsgs_date'], $board_config['board_timezone']))
             );
 
@@ -464,7 +449,7 @@ switch($pmaction)
 
             /* Send the comment area to the archive only parts to prevent JS errors */
             $template->assign_vars(array(
-            'JS_ARCHIVE_COMMENT_1' => '/* ',
+			'JS_ARCHIVE_COMMENT_1' => '/* ',
             'JS_ARCHIVE_COMMENT_2' => ' */'));
         }
         $template->set_filenames(array(
@@ -501,7 +486,7 @@ switch($pmaction)
         'L_ROWS_PER_PAGE' =>$lang['Rows_Per_Page'],
         'L_ARCHIVE_FEATURE' =>$lang['Archive_Feature'],
         'L_OPTIONS' => $lang['Options'],
-   
+	    'L_QUOTE' => $lang['msg_quote'],
 
         'URL_ORPHAN' => append_sid($aprvmUtil->urlStart . '&pmaction=remove_old'),
         'URL_SENT' => append_sid($aprvmUtil->urlStart . '&pmaction=remove_sent'),
@@ -539,7 +524,7 @@ switch($pmaction)
         }
         $template->pparse('body');
 
-        $aprvmUtil->copyright($page_title, '2001-2003');
+        $aprvmUtil->copyright($page_title, '2001-2023');
 
         include('page_footer_admin.'.$phpEx);
         break;
@@ -547,9 +532,7 @@ switch($pmaction)
 }
 
 class aprvmUtils
-
 {
-
     var $modVersion;
     var $modName;
     var $copyrightYear;
@@ -557,6 +540,7 @@ class aprvmUtils
     var $inArchiveText;
     var $urlPage;
     var $urlStart;
+	var $urlBase;
 
     function __construct()
     {
@@ -572,11 +556,8 @@ class aprvmUtils
         global $lang, $mode, $board_config;
 
         $this->modName = ($board_config['aprvmArchive'] && $mode == 'archive') ? $lang['Private_Messages_Archive'] : $lang['Private_Messages'];
-
         $this->setupConfig();
-
         $this->makeURLStart();
-
         $this->inArchiveText = ($mode == 'archive') ? '_archive' : '';
     }
 
@@ -586,9 +567,7 @@ class aprvmUtils
         global $mode, $pmtype, $sort, $pmtype_text, $start, $phpEx;
 
         $this->urlBase = basename(__FILE__). "?order=$order&amp;sort=$sort&amp;pmtype=$pmtype&filter_from=$filter_from&filter_to=$filter_to";
-
         $this->urlPage = $this->urlBase. "&mode=$mode";
-
         $this->urlStart = $this->urlPage . '&start='.$start;
     }
 
@@ -600,18 +579,13 @@ class aprvmUtils
         $configList = array('aprvmArchive', 'aprvmVersion', 'aprvmView', 'aprvmRows', 'aprvmIP');
 
         $configLangs = array('aprvmArchive' => $lang['Archive_Feature'],
-
                             'aprvmVersion' => $lang['Version'],
-
                             'aprvmView' => $lang['PM_View_Type'],
-
                             'aprvmRows' => $lang['Rows_Per_Page'],
-
                             'aprvmIP' => $lang['Show_IP']);
 
         $configDefaults = array('0', $this->modVersion, '0', '25', '1');
-
-                                //off, version, inline, 25, yes
+                                                      //off, version, inline, 25, yes
 
         //Check for an update config command
 
@@ -778,6 +752,7 @@ class aprvmUtils
                            //Has array sections ['user'] and ['reverse']
                            //['user']['user_id'] => ['username']
                            //['reverse']['username'] => ['user_id']
+		$nameCache = [];				   
 
         if ($id == '')
         {
@@ -804,8 +779,8 @@ class aprvmUtils
                 $row = $db->sql_fetchrow($result);
 
                 //Setupcache
-                $nameCache['user'][$row['user_id']] = $row['username'];
-                $nameCache['reverse'][$row['username']] = $row['user_id'];
+                $nameCache['user'][$row['user_id'] ?? ''] = $row['username'];
+                $nameCache['reverse'][$row['username']] = $row['user_id'] ?? '';
                 return $row['username'];
                 break;
             }
@@ -901,18 +876,13 @@ class aprvmUtils
     * @desc Prints a sytlized line of copyright for module
     */
     function copyright()
-    {
-        printf('<br /><center><span class="copyright">
-
-                    %s 
-
-                    &copy; %s 
-
-                    <a href="http://www.nivisec.com" class="copyright" target="_blank">Nivisec.com</a>.
-
+    {   // Billy wrote this mod in 2001!
+        printf('<br /><div align="center"><span class="copyright">
+                    %s &copy; %s 
+                    <a href="https://www.nivisec.com" class="copyright" target="_blank">Nivisec.com</a>.
                     ', $this->modName, $this->copyrightYear);
 
-        printf('</span></center>');
+        printf('</span></div>');
     }
     function doArchiveTable()
     {
@@ -965,13 +935,10 @@ class aprvmManager
     {
 
     }
-   
-
     function addArchiveItem($post_id)
     {
         $this->archiveQueue[] = $post_id;
     }
-
     function addDeleteItem($post_id)
     {
         $this->deleteQueue[] = $post_id;
@@ -991,7 +958,6 @@ class aprvmManager
         {
             $postList .= ($postList != '') ? ', '.$post_id : $post_id;
         }
-       
 
         $sql = 'SELECT * FROM ' . PRIVMSGS_TABLE . "
                WHERE privmsgs_id IN ($postList)";
@@ -1003,15 +969,11 @@ class aprvmManager
 
         while ($row = $db->sql_fetchrow($result))
         {
-
             $sql = 'INSERT INTO ' . PRIVMSGS_TABLE . $aprvmUtil->archiveText.' VALUES
 
                (' . $row['privmsgs_id'] . ', ' . $row['privmsgs_type'] . ", '" . addslashes($row['privmsgs_subject']) . "', " .
-
                 $row['privmsgs_from_userid'] . ', ' . $row['privmsgs_to_userid'] . ', ' . $row['privmsgs_date'] . ", '" .
-
                 $row['privmsgs_ip'] . "', " . $row['privmsgs_enable_bbcode'] . ', ' . $row['privmsgs_enable_html'] . ', ' .
-
                 $row['privmsgs_enable_smilies'] . ', ' . $row['privmsgs_attach_sig'] . ')';
 
             if(!$db->sql_query($sql))
@@ -1021,12 +983,10 @@ class aprvmManager
             else
             {
                 $status_message .= sprintf($lang['Archived_Message'], $row['privmsgs_subject']);
-
                 $this->syncNums[$row['privmsgs_to_userid']][$row['privmsgs_type']]++;
             }
         }
         $sql = 'DELETE FROM ' . PRIVMSGS_TABLE . "
-
                   WHERE privmsgs_id IN ($postList)";
 
         if(!$db->sql_query($sql))
