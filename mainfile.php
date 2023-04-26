@@ -441,10 +441,6 @@ if(!function_exists('classAutoloader')):
     spl_autoload_register('classAutoloader');
 endif;
 
-if(CAN_MOD_INI):
-    ini_set('zlib.output_compression', 0);
-endif;
-
 # Vendor Autoload - only if vendor directory exists with an autoload file! START
 if(file_exists(NUKE_VENDOR_DIR.'autoload.php')):
   require_once(NUKE_VENDOR_DIR.'autoload.php');
@@ -551,10 +547,14 @@ if (GZIPSUPPORT && !ini_get('zlib.output_compression')
       ob_end_clean();
         if (!in_array('ob_gzhandler', ob_list_handlers())):
 		 ob_end_flush();
-	     ini_set('zlib.output_compression_level', 9);
+		   if(CAN_MOD_INI):
+	        ini_set('zlib.output_compression_level', 9);
+		   endif;
          ob_start('ob_gzhandler');
         else:
-	     ini_set('zlib.output_compression_level', 9);
+	       if(CAN_MOD_INI):
+		    ini_set('zlib.output_compression_level', 9);
+		   endif;
          ob_start('ob_gzhandler');
         endif;		
     else:
