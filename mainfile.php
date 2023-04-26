@@ -548,8 +548,15 @@ if (GZIPSUPPORT && !ini_get('zlib.output_compression')
 && preg_match('/gzip/i', $_SERVER['HTTP_ACCEPT_ENCODING'])):
     
 	if (PHP_7): 
-        ob_end_clean(); 
-		ob_start('ob_gzhandler');
+      ob_end_clean();
+        if (!in_array('ob_gzhandler', ob_list_handlers())):
+		 ob_end_flush();
+	     ini_set('zlib.output_compression_level', 9);
+         ob_start('ob_gzhandler');
+        else:
+	     ini_set('zlib.output_compression_level', 9);
+         ob_start('ob_gzhandler');
+        endif;		
     else:
         $do_gzip_compress = true;
         ob_start();
