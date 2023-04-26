@@ -108,13 +108,13 @@ function prepare_bbcode_template($bbcode_tpl)
     # ----- new bbcode addition to v3 ----- END
 
     // $bbcode_tpl['size_open'] = str_replace('{SIZE}', '\\1', $bbcode_tpl['size_open']);
-    // $bbcode_tpl['quote_open'] = str_replace('{L_QUOTE}', $lang['Quote'], $bbcode_tpl['quote_open']);
+    $bbcode_tpl['quote_open'] = str_replace('{L_QUOTE}', $lang['Quote'], $bbcode_tpl['quote_open']);
     $bbcode_tpl['quote_username_open'] = str_replace('{L_QUOTE}',$lang['Quote'],$bbcode_tpl['quote_username_open']);
     $bbcode_tpl['quote_username_open'] = str_replace('{L_WROTE}',$lang['wrote'],$bbcode_tpl['quote_username_open']);
     $bbcode_tpl['quote_username_open'] = str_replace('{USERNAME}',UsernameColor('\\1'),$bbcode_tpl['quote_username_open']);
     
 	
-	// $bbcode_tpl['quote_close'] = str_replace('{USERNAME}', UsernameColor('\\1'), $bbcode_tpl['quote_close']);
+	$bbcode_tpl['quote_close'] = str_replace('{USERNAME}', UsernameColor('\\1'), $bbcode_tpl['quote_close']);
 
     # Mod: Extended Quote Tag v1.0.0 START
     $bbcode_tpl['quote_post_open'] = str_replace('{L_QUOTE}',$lang['Quote'],$bbcode_tpl['quote_post_open']);
