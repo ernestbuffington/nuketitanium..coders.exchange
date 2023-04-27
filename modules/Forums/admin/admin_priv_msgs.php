@@ -88,12 +88,6 @@ if (!empty($setmodules))
 /** Module Actual Start
 /***************************************************************************/
 
-/*******************************************************************************************
-/** Get parameters.  'var_name' => 'default_value'
-/** This is outdated insecure, but I don't feel like rewriting the whole thing to be even more
-/**    class structured.  Maybe some day when phpBB moves to php5 I will.
-/******************************************************************************************/
-
 //Normal sections.
 $params = array('mode' => '', 'order' => 'DESC',
 'sort' => 'privmsgs_date', 'pmaction' => 'none',
