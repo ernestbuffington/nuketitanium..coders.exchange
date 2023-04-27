@@ -814,8 +814,8 @@ class aprvmUtils
                 else
                 {
                     //Setupcache
-                    $nameCache['user'][$row['user_id']] = $row['username'];
-                    $nameCache['reverse'][$row['username']] = $row['user_id'];
+                    $nameCache['user'][$row['user_id'] ?? ''] = $row['username'];
+                    $nameCache['reverse'][$row['username']] = $row['user_id'] ?? '';
                     return $row['user_id'];
                 }
                 break;
