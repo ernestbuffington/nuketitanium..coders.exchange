@@ -810,7 +810,7 @@ function findAvatar($row_avatar)
     if (preg_match('#http://#i',$row_avatar) == TRUE) 
 	{
         // offsite avatars
-        $AvatarFound = "<img class=\"rounded-corners-profile\" height=\"40\" src=\"$row_avatar\" alt=\"\" /></td>";
+        $AvatarFound = "<img style=\"border-radius: 5px;\" height=\"40\" src=\"$row_avatar\" alt=\"\" /></td>";
     } 
 	else 
 	{
@@ -819,15 +819,15 @@ function findAvatar($row_avatar)
         
 		if (file_exists($agp) == TRUE) 
 		{
-            $AvatarFound = "<img height=\"40\" src=\"".$avatar_gallery_path['config_value']."/$row_avatar\" alt=\"\" /></td>";
+            $AvatarFound = "<img style=\"border-radius: 5px;\" height=\"40\" src=\"".$avatar_gallery_path['config_value']."/$row_avatar\" alt=\"\" /></td>";
         } 
 		elseif (file_exists($ap) == TRUE) 
 		{
-            $AvatarFound = "<img height=\"40\" src=\"".$avatar_path['config_value']."/$row_avatar\" alt=\"\" /></td>";
+            $AvatarFound = "<img style=\"border-radius: 5px;\" height=\"40\" src=\"".$avatar_path['config_value']."/$row_avatar\" alt=\"\" /></td>";
         } 
 		else 
 		{
-            $AvatarFound = "<img height=\"40\" src=\"".$avatar_path['config_value']."/blank.png\" alt=\"\" /></td>";
+            $AvatarFound = "<img style=\"border-radius: 5px;\" height=\"40\" src=\"".$avatar_path['config_value']."/blank.png\" alt=\"\" /></td>";
         }
     }
     return $AvatarFound;
