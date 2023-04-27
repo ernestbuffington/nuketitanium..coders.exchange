@@ -22,7 +22,7 @@
 
 /*****[CHANGES]**********************************************************
 -=[Base]=-
-      Nuke Patched                             v3.1.0       08/06/2005
+      PHP Patched                             v8.2.5       04/27/2023
  ************************************************************************/
 
 if (!defined('MODULE_FILE')) {
@@ -37,7 +37,7 @@ function is_ad_client($network_ad_client) {
     static $ClientSave;
     if(isset($ClientSave)) return $ClientSave;
     if(!is_array($network_ad_client)) {
-        $network_ad_client = base64_decode($network_ad_client);
+        $network_ad_client = base64_decode($network_ad_client ?? '');
         $network_ad_client = addslashes($network_ad_client);
         $network_ad_client = explode(":", $network_ad_client);
         $cid = $network_ad_client[0];
