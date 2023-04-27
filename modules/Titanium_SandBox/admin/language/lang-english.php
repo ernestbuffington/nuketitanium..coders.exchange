@@ -1,4 +1,7 @@
 <?php
+if(!isset($nuke_name)) { $nuke_name = 'Titanium'; }
+if(!isset($sql_version)) { $sql_version = '777'; }
+
 $step_a[1] = "Step 1: Language Selection";
 $step_a[2] = "Step 2: Server Specifications";
 $step_a[3] = "Step 3: File CHMOD Check";
