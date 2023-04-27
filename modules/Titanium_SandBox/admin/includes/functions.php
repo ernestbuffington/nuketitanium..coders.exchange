@@ -1,17 +1,9 @@
 <?php
-
-/*=======================================================================
-  PHP-Nuke Titanium : Enhanced PHP-Nuke Web Portal System
- =======================================================================*/
 /************************************************************************
-  PHP-Nuke Titanium : Advanced Installer
-  ============================================
   Copyright (c) 2010 by The 86it Developers Network
 
   Filename           : functions.php
   Author             : TheGhost (www.86it.us)
-  Design Layout      : The Mortal (RealmDesignz.com)
-  Code Modifications : TheGhost, The Mortal
   Version            : 1.0.0
   Date               : 03.20.2021 (mm.dd.yyyy)
 
@@ -27,16 +19,6 @@ function serverinfo()
 {
   echo '<div align="middle"><strong>Titanium admin SandBox</strong><br />';
   echo " "." PHP version is: ".phpversion()."<br />";
-  ob_start();
-  phpinfo(INFO_MODULES);
-  $info = ob_get_contents();
-  ob_end_clean();
-  $info = stristr($info, 'Client API version');
-  preg_match('/[1-9].[0-9].[1-9][0-9]/', $info, $match);
-  $gd = $match[0];
-  echo 'MariaDB MySQL:  '.$gd.' <br />';
-  echo '</div>';
-
 }
 
 function case_menu($url, $title, $image) 
