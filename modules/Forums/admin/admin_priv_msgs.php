@@ -92,9 +92,9 @@ foreach($params as $var => $default)
 {
     $$var = $default;
 
-    if(isset($HTTP_POST_VARS[$var]) || isset($HTTP_GET_VARS[$var]))
+    if(isset($_POST[$var]) || isset($_GET[$var]))
     {
-        $$var = (isset($HTTP_POST_VARS[$var])) ? $HTTP_POST_VARS[$var] : $HTTP_GET_VARS[$var];
+        $$var = (isset($_POST[$var])) ? $_POST[$var] : $_GET[$var];
     }
 }
 
@@ -105,9 +105,9 @@ foreach($params as $var => $default)
 {
     $$var = $default;
 
-    if(isset($HTTP_POST_VARS[$var]) || isset($HTTP_GET_VARS[$var]))
+    if(isset($_POST[$var]) || isset($_GET[$var]))
     {
-        $$var = intval((isset($HTTP_POST_VARS[$var])) ? $HTTP_POST_VARS[$var] : $HTTP_GET_VARS[$var]);
+        $$var = intval((isset($_POST[$var])) ? $_POST[$var] : $_GET[$var]);
     }
 }
 /****************************************************************************
@@ -151,11 +151,11 @@ if ($filter_to != '')
     $filter_to_text = (!empty($filter_to_user)) ? "AND pm.privmsgs_to_userid = $filter_to_user" : '';
 }
 
-if (count($HTTP_POST_VARS))
+if (count($_POST))
 {
     $aprvmMan = new aprvmManager();
 
-    foreach($HTTP_POST_VARS as $key => $val)
+    foreach($_POST as $key => $val)
     {
         /*******************************************************************************************
         /** Check for archive items
@@ -574,7 +574,7 @@ class aprvmUtils
     function setupConfig()
     {
 
-        global $board_config, $db, $HTTP_GET_VARS, $status_message, $lang, $cache;
+        global $board_config, $db, $_GET, $status_message, $lang, $cache;
 
         $configList = array('aprvmArchive', 'aprvmVersion', 'aprvmView', 'aprvmRows', 'aprvmIP');
 
@@ -591,17 +591,17 @@ class aprvmUtils
 
         //Also do an array check to make sure our config is in our config list array to update
 
-        if (isset($HTTP_GET_VARS['config_name']) && in_array($HTTP_GET_VARS['config_name'], $configList))
+        if (isset($_GET['config_name']) && in_array($_GET['config_name'], $configList))
 
         {
 
             $sql = 'UPDATE '. CONFIG_TABLE . "
-                    set config_value = '{$HTTP_GET_VARS['config_value']}'
-                    WHERE config_name = '{$HTTP_GET_VARS['config_name']}'";
+                    set config_value = '{$_GET['config_value']}'
+                    WHERE config_name = '{$_GET['config_name']}'";
             $db->sql_query($sql);
            
 
-            $board_config[$HTTP_GET_VARS['config_name']] = $HTTP_GET_VARS['config_value'];
+            $board_config[$_GET['config_name']] = $_GET['config_value'];
 
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
@@ -610,7 +610,7 @@ class aprvmUtils
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-            $status_message .= sprintf($lang['Updated_Config'], $configLangs[$HTTP_GET_VARS['config_name']]);
+            $status_message .= sprintf($lang['Updated_Config'], $configLangs[$_GET['config_name']]);
         }            
         //Loop through and see if a config name is set, if not set up a default
 
@@ -631,7 +631,7 @@ class aprvmUtils
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-                $status_message .= sprintf($lang['Inserted_Default_Value'], $configLangs[$HTTP_GET_VARS['config_name']]);
+                $status_message .= sprintf($lang['Inserted_Default_Value'], $configLangs[$_GET['config_name']]);
             }
 
         }
@@ -996,7 +996,7 @@ class aprvmManager
     }
     function doDelete()
     {
-        global $board_config, $HTTP_POST_VARS, $db, $lang, $status_message, $aprvmUtil, $mode;
+        global $board_config, $_POST, $db, $lang, $status_message, $aprvmUtil, $mode;
 
         if (!count($this->deleteQueue)) return;
 
@@ -1004,7 +1004,7 @@ class aprvmManager
 
         foreach($this->deleteQueue as $post_id)
         {
-            if ($board_config['aprvmArchive'] && isset($HTTP_POST_VARS['archive_id_' . $post_id]))
+            if ($board_config['aprvmArchive'] && isset($_POST['archive_id_' . $post_id]))
             {
                 /* This query isn't really needed, but makes the hey we deleted this title isntead of id show up */
                 $sql = 'SELECT privmsgs_subject FROM ' . PRIVMSGS_TABLE . $aprvmUtil->archiveText . " 
