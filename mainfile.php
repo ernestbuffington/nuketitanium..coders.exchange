@@ -551,11 +551,13 @@ if (GZIPSUPPORT && !ini_get('zlib.output_compression')
 	        ini_set('zlib.output_compression_level', 9);
 		   endif;
          ob_start('ob_gzhandler');
+		 header("Content-Encoding: gzip");
         else:
 	       if(CAN_MOD_INI):
 		    ini_set('zlib.output_compression_level', 9);
 		   endif;
          ob_start('ob_gzhandler');
+		 header("Content-Encoding: gzip");
         endif;		
     else:
         $do_gzip_compress = true;
@@ -1594,7 +1596,7 @@ function filter($what, $strip="", $save="", $type="") {
 }
 
 /*
- * formatTimestamp function by ReOrGaNiSaTiOn
+ * formatTimestamp function by ReOrGaNiSaTiOn and TheGhost
  * Adopted Evo function formatTimestamp
  * Code origin Evo Xtreme v2.0.9e
  * @date 03/28/2023 8:23 AM Ernest Allen Buffington 
