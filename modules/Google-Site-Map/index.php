@@ -13,7 +13,7 @@
 /************************************************************************/
 
 /************************************************************************/
-/* Google-Site-Map Module 1.0 by Ernest Buffington 			            */
+/* Google-Site-Map Module 2.0 by Ernest Buffington 			            */
 /* =================================                                    */
 /* Copyright (c) 2021 by The 86it Developers Network          			*/
 /* http://www.86it.us                                                   */
@@ -90,13 +90,12 @@ print '<i style="vertical-align: middle; height: 15px; width: 15;" class="fa fa-
 print '<br/>';
 
 print '<div align="center">';
-print '<table style="background-color:#70163C;" class="googlesitemap" align="center" border="5" cellpadding="15" cellspacing="20" dir="ltr" id="googlesitemap">';
+print '<table class="googlesitemap" align="center" border="5" cellpadding="15" cellspacing="20" dir="ltr" id="googlesitemap">';
 print '<tbody>';
 print '<tr>';
 print '<td align="center">';
 
-print '<hr>';
-print '<a href="'.$nukeurl.'">Homepage</a><hr>';
+print '<a href="'.$nukeurl.'">Homepage</a><br/>';
 print '<table align="center" border="0">';
 
 print '<tr><td></td><td align="center"></td></tr>'."\n";
@@ -223,7 +222,7 @@ while ($row2 = $db->sql_fetchrow($result2)):
      # content module
 	 if($link === 'Content'):
 
-     print '<td><a href="modules.php?name='.$link.'">'.$the_module_title.' &#187; A list of the available content on '.$sitename.'</a>&nbsp;&nbsp;&nbsp;<hr></td></tr>'."\n";
+     print '<td><a href="modules.php?name='.$link.'">'.$the_module_title.' &#187; A list of the available content on '.$sitename.'</a>&nbsp;&nbsp;&nbsp;</td></tr>'."\n";
      $sitemap->addItem('/modules.php?name='.$link.'', '0.8', 'monthly', 'Jun 25');
      
 	 
