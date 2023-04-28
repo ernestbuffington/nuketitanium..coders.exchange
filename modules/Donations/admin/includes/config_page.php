@@ -144,6 +144,7 @@ function get_values() {
     static $page;
     if(isset($page) && is_array($page)) { return $page; }
     if (!$page = $cache->load('page', 'donations')) {
+		$page = [];
         $sql = 'SELECT config_value, config_name from '.$prefix.'_donators_config WHERE config_name LIKE "page_%"';
         if(!$result = $db->sql_query($sql)) {
             DonateError($lang_donate['VALUES_NF']);
