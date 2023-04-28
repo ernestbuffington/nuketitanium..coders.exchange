@@ -175,6 +175,7 @@ function get_values() {
 	
     if(isset($block) && is_array($block)) { return $block; }
     if (!$block = $cache->load('block', 'titanium_donations')) {
+		$block = [];
         $sql = 'SELECT config_value, config_name from '.$prefix.'_donators_config WHERE config_name LIKE "block_%"';
         if(!$result = $db->sql_query($sql)) {
             DonateError($lang_donate['VALUES_NF']);
