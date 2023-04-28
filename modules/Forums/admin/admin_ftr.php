@@ -200,6 +200,7 @@ include($phpbb_root_path .'language/lang_'. $board_config['default_lang'] .'/lan
 								
 			$dropdown = '';
 			$dropdown .= '<select name="topic">';
+			if(!isset($trows)) { $trows = 0; }
 			for ($x = 0; $x < count($trows); $x++)
 				$dropdown .= '<option class="post" value="'. $trows[$x]['topic_id'] .'">'. $trows[$x]['topic_title'] .'</option>';
 			$dropdown .= '</select>';
