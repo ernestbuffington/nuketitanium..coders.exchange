@@ -16,7 +16,7 @@ $content .= '<strong><span style="color:'.$heading_color.';">EasyApache 4</span>
 $content .= '<hr>';
 $content .= '<strong><strong><span style="color:'.$heading_color.';">Perl</span></strong><br />Version: 5.16.3<br />';
 $content .= '<hr>';
-$content .= '<strong><strong><span style="color:'.$heading_color.';">cPanel</span></strong><br />v108.0.12<br />';
+$content .= '<strong><strong><span style="color:'.$heading_color.';">cPanel</span></strong><br />v110.0.2<br />';
 $content .= '<hr>';
 $content .= '<strong><strong><span style="color:'.$heading_color.';">PHP Version</span></strong><br />php-fpm '.PHPVERS.'<br />';
 $content .= '<hr>';
