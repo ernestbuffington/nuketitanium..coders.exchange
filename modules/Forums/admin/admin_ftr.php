@@ -150,6 +150,7 @@ include($phpbb_root_path .'language/lang_'. $board_config['default_lang'] .'/lan
 			
 			$dropdown = '';
 			$dropdown .= '<select name="forum">';
+			if(!isset($frows)) { $frows = 0; }
 			for ($x = 0; $x < count($frows); $x++)
 				$dropdown .= '<option class="post" value="'. $frows[$x]['forum_id'] .'">'. $frows[$x]['forum_name'] .'</option>';
 			$dropdown .= '</select>';
