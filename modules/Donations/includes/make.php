@@ -255,14 +255,14 @@ function make_donation () {
 	CloseTable();
 }
 
-setcookie('currency_code', null, time()-3600);
-setcookie('business', null, time()-3600);
-setcookie('on0', null, time()-3600);
-setcookie('on1', null, time()-3600);
-setcookie('item_name', null, time()-3600);
-setcookie('amount', null, time()-3600);
-setcookie('os0', null, time()-3600);
-setcookie('os1', null, time()-3600);
+setcookie('currency_code', '', time()-3600);
+setcookie('business', '', time()-3600);
+setcookie('on0', '', time()-3600);
+setcookie('on1', '', time()-3600);
+setcookie('item_name', '', time()-3600);
+setcookie('amount', '', time()-3600);
+setcookie('os0', '', time()-3600);
+setcookie('os1', '', time()-3600);
 
 //Get values
 global $gen_configs;

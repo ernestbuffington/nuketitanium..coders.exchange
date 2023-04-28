@@ -103,6 +103,8 @@ function DonateError($text, $close=1) {
     echo '</div>';
     if ($close) {
         CloseTable();
+		include_once(NUKE_BASE_DIR.'footer.php');
+
     }
     die();
 }

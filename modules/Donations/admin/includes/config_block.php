@@ -144,7 +144,10 @@ function write_values($values) {
     Notes:       Runs write_values()
 ================================================================================================*/
 function set_values() {
-    $values['show_amount'] = $_POST['show_amount'];
+    
+	$values = [];
+	
+	$values['show_amount'] = $_POST['show_amount'];
     $values['show_anon_amount'] = $_POST['show_anon_amount'];
     $values['show_goal'] = $_POST['show_goal'];
     $values['button_image'] = $_POST['button_image'];
@@ -167,6 +170,9 @@ function set_values() {
 function get_values() {
     global $db, $prefix, $lang_donate, $cache;
     static $block;
+	
+	$row = [];
+	
     if(isset($block) && is_array($block)) { return $block; }
     if (!$block = $cache->load('block', 'titanium_donations')) {
         $sql = 'SELECT config_value, config_name from '.$prefix.'_donators_config WHERE config_name LIKE "block_%"';

@@ -30,14 +30,16 @@ include_once(NUKE_DONATIONS_ADMIN_INCLUDES . 'base.php');
 function get_gen_configs () {
     global $db, $prefix, $lang_donate, $cache;
     static $gen;
+	
     if(isset($gen) && is_array($gen)) { return $gen; }
     if (!$gen = $cache->load('general', 'titanium_donations')) {
+        $gen = array();
         $sql = 'SELECT config_value, config_name from '.$prefix.'_donators_config WHERE config_name LIKE "gen_%"';
         if(!$result = $db->sql_query($sql)) {
             DonateError($lang_donate['GEN_NF'],0);
         }
         while ($row = $db->sql_fetchrow($result)) {
-            $gen[str_replace('gen_', '', $row['config_name'])] = $row['config_value'];
+            $gen[str_replace('gen_', '', (string) $row['config_name'])] = $row['config_value'];
         }
         $db->sql_freeresult($result);
         $cache->save('general', 'titanium_donations', $gen);
@@ -56,6 +58,7 @@ function get_page_configs () {
     static $page;
     if(isset($page) && is_array($page)) { return $page; }
     if (!$page = $cache->load('page', 'titanium_donations')) {
+        $page = array();
         $sql = 'SELECT config_value, config_name from '.$prefix.'_donators_config WHERE config_name LIKE "page_%"';
         if(!$result = $db->sql_query($sql)) {
             DonateError($lang_donate['PAGE_NF'],0);
