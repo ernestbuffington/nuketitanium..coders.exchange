@@ -3823,7 +3823,7 @@ CREATE TABLE `nuke_users_who_been` (
 --
 
 CREATE TABLE `nuke_welcome_pm` (
-  `subject` varchar(30) NOT NULL DEFAULT '',
+  `subject` varchar(100) NOT NULL DEFAULT '',
   `msg` text NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_general_ci;
 
