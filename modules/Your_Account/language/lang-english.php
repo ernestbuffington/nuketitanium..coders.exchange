@@ -408,7 +408,7 @@ define_once("_USER_RETURNMAIN", "Return to Main Administration");
 define_once("_USERADMIN","User's Administration");
 define_once("_USERAPPFINALSTEP","New User Application: Final Step");
 define_once("_USERAPPLOGIN","User Application/Login");
-define_once("_USERCHECKDATA","please check the following information. If all is correct you can proceed with the registration by clicking on \"Finish\" button, otherwise \"Go Back\" and change whatever information is needed.");
+define_once("_USERCHECKDATA","please check the following information.<br />If all is correct you can proceed with the registration by clicking on the\"Finish\" button, otherwise \"Go Back\" and change whatever information is needed.");
 define_once("_USERFINALSTEP","New User Registration: Final Step");
 define_once("_USERID","User ID");
 define_once("_USERLOGIN","User Login");
