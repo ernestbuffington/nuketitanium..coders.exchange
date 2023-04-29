@@ -11,6 +11,10 @@
 /* See CREDITS.txt for ALL contributors                 */
 /********************************************************/
 
+/* Applied rules: Ernest Allen Buffington (TheGhost) 04/29/2023 6:20 PM
+ * NullToStrictStringFuncCallArgRector
+ */
+
 if (!defined('NUKESENTINEL_PUBLIC')) {
    die ('You can\'t access this file directly...');
 }
@@ -69,7 +73,7 @@ if ($totalselected > 0) {
     $getIPs['ip_lo_ip'] = long2ip($getIPs['ip_lo']);
     $getIPs['ip_hi_ip'] = long2ip($getIPs['ip_hi']);
     list($getIPs['country']) = $db->sql_fetchrow($db->sql_query("SELECT `country` FROM `".$prefix."_nsnst_countries` WHERE `c2c`='".$getIPs['c2c']."' LIMIT 0,1"));
-    $getIPs['c2c'] = strtoupper($getIPs['c2c']);
+    $getIPs['c2c'] = strtoupper((string) $getIPs['c2c']);
     echo '<tr onmouseover="this.style.backgroundColor=\''.$bgcolor2.'\'" onmouseout="this.style.backgroundColor=\''.$bgcolor1.'\'" bgcolor="'.$bgcolor1.'">'."\n";
     echo '<td align="center">'.$getIPs['ip_lo_ip'].'</td>'."\n";
     echo '<td align="center">'.$getIPs['ip_hi_ip'].'</td>'."\n";
