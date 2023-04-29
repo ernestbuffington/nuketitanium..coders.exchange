@@ -54,7 +54,7 @@ if ($row2['radminsuper'] == 1 || $auth_user == 1) {
 
 		$counter = 0;
 
-		foreach ($alphabet as $ltr) {
+   foreach ($alphabet as $ltr) {
       $result = $db->sql_query("select * from ".$prefix."_encyclopedia_text where eid='$eid' AND UPPER(title) LIKE '$ltr%'");
       if ($db->sql_numrows($result) > 0) {
    
@@ -85,9 +85,9 @@ if ($row2['radminsuper'] == 1 || $auth_user == 1) {
 
 	function encyclopedia() {
 
-		$languageslist = [];
         global $prefix, $db, $language, $multilingual, $bgcolor2, $admin_file;
 
+        if(!isset($language)) { $language = 'english'; }
 		include("header.php");
 
 		GraphicAdmin();
@@ -97,7 +97,6 @@ if ($row2['radminsuper'] == 1 || $auth_user == 1) {
 		OpenTable();
 
 		echo "<table border=\"1\" width=\"100%\"><tr>"
-
 		."<td bgcolor=\"$bgcolor2\">&nbsp;<b>"._TITLE."</b></td><td align=\"center\" bgcolor=\"$bgcolor2\">&nbsp;<b>"._TERMS."</b>&nbsp;</td><td align=\"center\" bgcolor=\"$bgcolor2\">&nbsp;<b>"._STATUS."</b>&nbsp;</td><td align=\"center\" bgcolor=\"$bgcolor2\">&nbsp;<b>"._FUNCTIONS."</b>&nbsp;</td></tr>";
 
 		$result = $db->sql_query("select * from ".$prefix."_encyclopedia order by eid");
@@ -109,17 +108,13 @@ if ($row2['radminsuper'] == 1 || $auth_user == 1) {
 			if ($ency['active'] == 1) {
 
 				$status = "<img src=\"images/active.gif\" alt=\""._ACTIVE."\" title=\""._ACTIVE."\" border=\"0\" width=\"16\" height=\"16\">";
-
 				$status_chng = "<img src=\"images/inactive.gif\" alt=\""._DEACTIVATE."\" title=\""._DEACTIVATE."\" border=\"0\" width=\"16\" height=\"16\">";
-
 				$active = 1;
 
 			} else {
 
 				$status = "<img src=\"images/inactive.gif\" alt=\""._INACTIVE."\" title=\""._INACTIVE."\" border=\"0\" width=\"16\" height=\"16\">";
-
 				$status_chng = "<img src=\"images/active.gif\" alt=\""._ACTIVATE."\" title=\""._ACTIVATE."\" border=\"0\" width=\"16\" height=\"16\">";
-
 				$active = 0;
 
 			}
@@ -132,26 +127,19 @@ if ($row2['radminsuper'] == 1 || $auth_user == 1) {
 
 		CloseTable();
 
-		echo "<br>";
 
 		OpenTable();
 
 		echo "<center><b>"._ADDNEWENCYCLOPEDIA."</b></center><br><br>"
-
 		."<form action=\"".$admin_file.".php\" method=\"post\">"
-
 		."<b>"._TITLE.":</b><br>"
-
 		."<input type=\"text\" name=\"title\" size=\"50\"><br><br>"
-
 		."<b>"._DESCRIPTION.":</b><br>"
-
 		."<textarea name=\"description\" cols=\"100\" rows=\"15\"></textarea><br><br>";
 
 		if ($multilingual == 1) {
 
 			echo "<br><b>"._LANGUAGE.": </b>"
-
 			."<select name=\"elanguage\">";
 
 			$handle=opendir('language');
@@ -161,7 +149,7 @@ if ($row2['radminsuper'] == 1 || $auth_user == 1) {
 				if (preg_match("/^lang\-(.+)\.php/", $file, $matches)) {
 
 					$langFound = $matches[1];
-
+                    if(!isset($languageslist)) { $languageslist = ''; }
 					$languageslist .= "$langFound ";
 
 				}
@@ -179,9 +167,7 @@ if ($row2['radminsuper'] == 1 || $auth_user == 1) {
 				if(!empty($languageslist[$i])) {
 
 					echo "<option value=\"$languageslist[$i]\" ";
-
 					if($languageslist[$i]==$language) echo "selected";
-
 					echo ">".ucfirst($languageslist[$i])."</option>\n";
 
 				}
@@ -197,13 +183,9 @@ if ($row2['radminsuper'] == 1 || $auth_user == 1) {
 		}
 
 		echo "<b>"._ACTIVATEPAGE."</b><br>"
-
 		."<input type=\"radio\" name=\"active\" value=\"1\" checked>&nbsp;"._YES."&nbsp&nbsp;<input type=\"radio\" name=\"active\" value=\"0\">&nbsp;"._NO."<br><br>"
-
 		."<input type=\"hidden\" name=\"op\" value=\"encyclopedia_save\">"
-
 		."<input type=\"submit\" value=\""._SEND."\">"
-
 		."</form>";
 
 		CloseTable();
@@ -217,15 +199,10 @@ if ($row2['radminsuper'] == 1 || $auth_user == 1) {
 			OpenTable();
 
 			echo "<center><b>"._ADDNEWENCYTERM."</b></center><br><br>"
-
 			."<form action=\"".$admin_file.".php\" method=\"post\">"
-
 			."<b>"._TITLE.":</b><br>"
-
 			."<input type=\"text\" name=\"title\" size=\"50\"><br><br>"
-
 			."<b>"._TERMTEXT.":</b><br>"._PAGEBREAK."<br>"
-
 			."<textarea name=\"text\" cols=\"100\" rows=\"20\"></textarea><br><br>";
 
 			if ($multilingual == 1) {
@@ -283,7 +260,6 @@ if ($row2['radminsuper'] == 1 || $auth_user == 1) {
 			while(list($eid, $title) = $db->sql_fetchrow($result)) {
 
 				$eid = intval($eid);
-
 				$title = filter($title, "nohtml");
 
 				echo "<option value=\"$eid\" name=\"eid\">$title</option>";
@@ -291,11 +267,8 @@ if ($row2['radminsuper'] == 1 || $auth_user == 1) {
 			}
 
 			echo "</select><br><br>"
-
 			."<input type=\"hidden\" name=\"op\" value=\"encyclopedia_text_save\">"
-
 			."<input type=\"submit\" value=\""._ADD."\">"
-
 			."</form>";
 
 			CloseTable();
@@ -310,22 +283,16 @@ if ($row2['radminsuper'] == 1 || $auth_user == 1) {
 
 		if ($db->sql_numrows($result) > 1) {
 
-			echo "<br>";
-
 			OpenTable();
 
 			echo "<center><b>"._MOVETERMS."</b><br><br>"
-
 			."<form action=\"".$admin_file.".php\" method=\"post\">"
-
 			.""._MOVEALLTERMSFROM.": <select name=\"eid\">";
 
 			while(list($eid, $title) = $db->sql_fetchrow($result)) {
 
 				$eid = intval($eid);
-
 				$title = filter($title, "nohtml");
-
 				echo "<option name=\"eid\" value=\"$eid\">$title";
 
 			}
@@ -335,34 +302,26 @@ if ($row2['radminsuper'] == 1 || $auth_user == 1) {
 			while(list($eid, $title) = $db->sql_fetchrow($result2)) {
 
 				$eid = intval($eid);
-
 				$title = filter($title, "nohtml");
-
 				echo "<option name=\"new_eid\" value=\"$eid\">$title";
 
 			}
 
 			echo "</select>&nbsp;&nbsp;"
-
 			."<input type=\"hidden\" name=\"op\" value=\"move_terms\">"
-
 			."<input type=\"submit\" value=\""._SAVECHANGES."\">"
-
 			."</form></center>";
 
 			CloseTable();
 
 		}
-
 		include("footer.php");
-
 	}
 
 
 
 	function encyclopedia_edit($eid) {
 
-		$languageslist = [];
         global $prefix, $db, $language, $multilingual, $bgcolor2, $admin_file;
 
 		include("header.php");
@@ -380,13 +339,11 @@ if ($row2['radminsuper'] == 1 || $auth_user == 1) {
 		if ($ency['active'] == 1) {
 
 			$sel1 = "checked";
-
 			$sel2 = "";
 
 		} else {
 
 			$sel1 = "";
-
 			$sel2 = "checked";
 
 		}
@@ -394,21 +351,15 @@ if ($row2['radminsuper'] == 1 || $auth_user == 1) {
 		OpenTable();
 
 		echo "<center><b>"._EDITENCYCLOPEDIA."</b></center><br><br>"
-
 		."<form action=\"".$admin_file.".php\" method=\"post\">"
-
 		."<b>"._TITLE.":</b><br>"
-
 		."<input type=\"text\" name=\"title\" size=\"50\" value=\"".$ency['title']."\"><br><br>"
-
 		."<b>"._DESCRIPTION.":</b><br>"
-
 		."<textarea name=\"description\" cols=\"100\" rows=\"15\">".$ency['description']."</textarea><br><br>";
 
 		if ($multilingual == 1) {
 
 			echo "<br><b>"._LANGUAGE.": </b>"
-
 			."<select name=\"elanguage\">";
 
 			$handle=opendir('language');
@@ -418,7 +369,7 @@ if ($row2['radminsuper'] == 1 || $auth_user == 1) {
 				if (preg_match("/^lang\-(.+)\.php/", $file, $matches)) {
 
 					$langFound = $matches[1];
-
+					if(!isset($languageslist)) {$languageslist = ''; }
 					$languageslist .= "$langFound ";
 
 				}
@@ -438,7 +389,6 @@ if ($row2['radminsuper'] == 1 || $auth_user == 1) {
 					echo "<option value=\"$languageslist[$i]\" ";
 
 					if($languageslist[$i]==$language) echo "selected";
-
 					echo ">".ucfirst($languageslist[$i])."</option>\n";
 
 				}
