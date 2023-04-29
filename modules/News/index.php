@@ -17,7 +17,7 @@
 /* NSN News                                             */
 /* By: NukeScripts Network (webmaster@nukescripts.net)  */
 /* http://www.nukescripts.net                           */
-/* Copyright (c) 2000-2005 by NukeScripts Network         */
+/* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
 
 /*****[CHANGES]**********************************************************
@@ -30,6 +30,14 @@
       Display Topic Icon                       v1.0.0       06/27/2005
       Display Writes                           v1.0.0       10/14/2005
  ************************************************************************/
+ 
+/* Applied rules: Ernest Allen Buffington (TheGhost) 04/29/2023 5:39 PM
+ * TernaryToNullCoalescingRector
+ * CountOnNullRector (https://3v4l.org/Bndc9)
+ * SetCookieRector (https://www.php.net/setcookie https://wiki.php.net/rfc/same-site-cookie)
+ * NullCoalescingOperatorRector (https://wiki.php.net/rfc/null_coalesce_equal_operator)
+ * NullToStrictStringFuncCallArgRector
+ */ 
 
 if (!defined('MODULE_FILE')) {
    die('You can\'t access this file directly...');
@@ -48,7 +56,7 @@ automated_news();
 if (isset($new_topic)) { redirect("modules.php?name=$module_name&file=topics&topic=$new_topic"); }
 $main_module = main_module();
 
-$op = (isset($op)) ? $op : '';
+$op ??= '';
 
 switch ($op) {
 
@@ -111,24 +119,24 @@ switch ($op) {
         while ($artinfo = $db->sql_fetchrow($result)) {
             $artinfo["time"] = formatTimestamp($artinfo["time"]);
             if(!empty($subject))
-                $subject = stripslashes(check_html($subject, "nohtml"));
+                $subject = stripslashes((string) check_html($subject, "nohtml"));
 /*****[BEGIN]******************************************
  [ Mod:     News BBCodes                       v1.0.0 ]
  ******************************************************/
-            $artinfo["hometext"] =  decode_bbcode(set_smilies(stripslashes($artinfo["hometext"])), 1, true);
+            $artinfo["hometext"] =  decode_bbcode(set_smilies(stripslashes((string) $artinfo["hometext"])), 1, true);
             $artinfo["hometext"] = img_tag_to_resize($artinfo["hometext"]);
 /*****[END]********************************************
  [ Mod:     News BBCodes                       v1.0.0 ]
  ******************************************************/
-            $artinfo["notes"] = stripslashes($artinfo["notes"]);
+            $artinfo["notes"] = stripslashes((string) $artinfo["notes"]);
             $artinfo["sid"] = intval($artinfo["sid"]);
-            $artinfo["aid"] = stripslashes($artinfo["aid"]);
-            $artinfo["title"] = stripslashes(check_html($artinfo["title"], "nohtml"));
+            $artinfo["aid"] = stripslashes((string) $artinfo["aid"]);
+            $artinfo["title"] = stripslashes((string) check_html($artinfo["title"], "nohtml"));
             $artinfo["comments"] = intval($artinfo["comments"]);
             $artinfo["counter"] = intval($artinfo["counter"]);
             $artinfo["topic"] = intval($artinfo["topic"]);
-            $artinfo["informant"] = stripslashes($artinfo["informant"]);
-            $artinfo["notes"] = stripslashes($artinfo["notes"]);
+            $artinfo["informant"] = stripslashes((string) $artinfo["informant"]);
+            $artinfo["notes"] = stripslashes((string) $artinfo["notes"]);
             $artinfo["acomm"] = intval($artinfo["acomm"]);
             $artinfo["score"] = intval($artinfo["score"]);
             $artinfo["ratings"] = intval($artinfo["ratings"]);
@@ -149,11 +157,11 @@ switch ($op) {
             getTopics($artinfo["sid"]);
 
             if($neconfig["texttype"] == 0) {
-                $introcount = strlen($artinfo["hometext"]);
-                $fullcount = strlen($artinfo["bodytext"]);
+                $introcount = strlen((string) $artinfo["hometext"]);
+                $fullcount = strlen((string) $artinfo["bodytext"]);
             } else {
-                $introcount = strlen(strip_tags($artinfo["hometext"], "<br />"));
-                $fullcount = strlen($artinfo["bodytext"]);
+                $introcount = strlen(strip_tags((string) $artinfo["hometext"], "<br />"));
+                $fullcount = strlen((string) $artinfo["bodytext"]);
             }
             $totalcount = $introcount + $fullcount;
             $r_options = "";
@@ -194,7 +202,7 @@ switch ($op) {
                     }
                 } else { $morelink .= ""; }
                 if ($introcount > 255) {
-                    $artinfo["hometext"] = strip_tags($artinfo["hometext"], "<br />");
+                    $artinfo["hometext"] = strip_tags((string) $artinfo["hometext"], "<br />");
                     $artinfo["hometext"] = substr($artinfo["hometext"], 0, 255);
                 }
             }
@@ -327,17 +335,17 @@ switch ($op) {
             }
 
             if (isset($ratecookie)) {
-                $rcookie = base64_decode($ratecookie);
+                $rcookie = base64_decode((string) $ratecookie);
                 $r_cookie = explode(":", $rcookie);
             }
-            for ($i=0; $i < count($r_cookie); $i++) { if ($r_cookie[$i] == $sid) { $a = 1; } }
+            for ($i=0; $i < (is_countable($r_cookie) ? count($r_cookie) : 0); $i++) { if ($r_cookie[$i] == $sid) { $a = 1; } }
             if ($a == 1) {
                 redirect("modules.php?name=$module_name&op=rate_complete&sid=$sid&rated=1");
             } else {
                     $result = $db->sql_query("update ".$prefix."_stories set score=score+$score, ratings=ratings+1 where sid='$sid'");
                     $db->sql_freeresult($result);
                     $info = base64_encode("$rcookie$sid:");
-                    setcookie("ratecookie","$info",time()+86400);
+                    setcookie("ratecookie","$info",['expires' => time()+86400]);
                     redirect("modules.php?name=News&op=rate_complete&sid=$sid&score=$score");
             }
         } else {
