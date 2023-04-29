@@ -833,9 +833,9 @@ return static function (RectorConfig $rectorConfig): void {
 		//////__DIR__ . '/modules/NukeSentinel/public/STIPS.php',
 		//////__DIR__ . '/modules/NukeSentinel/public/functions.php',
 		//////__DIR__ . '/modules/NukeSentinel/public/STIndex.php',
-		__DIR__ . '/modules/NukeSentinel/public/STIP2C.php',
-		//__DIR__ . '/modules/NukeSentinel/public/STRanges.php',
-		//__DIR__ . '/modules/NukeSentinel/public/STReferers.php',
+		//////__DIR__ . '/modules/NukeSentinel/public/STIP2C.php',
+		//////__DIR__ . '/modules/NukeSentinel/public/STRanges.php',
+		//////__DIR__ . '/modules/NukeSentinel/public/STReferers.php',
 		
 		#NukeTitanium: modules/nukeSPAM
 		
