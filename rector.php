@@ -813,8 +813,8 @@ return static function (RectorConfig $rectorConfig): void {
 		
 		#NukeTitanium: modules/News
 		//////__DIR__ . '/modules/News/admin/index.php',
-		__DIR__ . '/modules/News/article.php',
-		//__DIR__ . '/modules/News/associates.php',
+		//////__DIR__ . '/modules/News/article.php',
+		__DIR__ . '/modules/News/associates.php',
 		//#__DIR__ . '/modules/News/articlebox.php',
 		//__DIR__ . '/modules/News/categories.php',
 		//__DIR__ . '/modules/News/comments.php',
