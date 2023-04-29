@@ -79,7 +79,7 @@ switch ($op) {
           }
         }
         include_once(NUKE_BASE_DIR."header.php");
-        if($neconfig["readmore"] == 1) {
+        if($neconfig['readmore'] == 1) {
             echo "<script language='JavaScript'>\n";
             echo "<!-- Begin\n";
             echo "function NewsReadWindow(mypage, myname, w, h, scroll) {\n";
@@ -361,10 +361,10 @@ switch ($op) {
         include_once(NUKE_BASE_DIR."header.php");
         title("$sitename: "._ARTICLERATING."");
         OpenTable();
-        if ($rated == 0) {
+        if (isset($rated) && $rated == 0) {
             echo "<center>"._THANKSVOTEARTICLE."<br /><br />";
             echo "[ <a href='modules.php?name=$module_name&amp;file=article&amp;sid=$sid$r_options'>"._BACKTOARTICLEPAGE."</a> ]</center>";
-        } elseif ($rated == 1) {
+        } elseif (isset($rated) && $rated == 1) {
             echo "<center>"._ALREADYVOTEDARTICLE."<br /><br />";
             echo "[ <a href='modules.php?name=$module_name&amp;file=article&amp;sid=$sid$r_options'>"._BACKTOARTICLEPAGE."</a> ]</center>";
         }
