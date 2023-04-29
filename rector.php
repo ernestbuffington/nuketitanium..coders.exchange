@@ -845,11 +845,14 @@ return static function (RectorConfig $rectorConfig): void {
 		#NukeTitanium: modules/Submit_Downloads
 		
 		#NukeTitanium: modules/Submit_News
-		__DIR__ . '/modules/Submit_News/index.php',
+		//////__DIR__ . '/modules/Submit_News/index.php',
 		
 		#NukeTitanium: modules/Surveys
 		#NukeTitanium: modules/Tags
+		
 		#NukeTitanium: modules/Top
+		__DIR__ . '/modules/Top/index.php',
+		
 		#NukeTitanium: modules/Topics
 		#NukeTitanium: modules/Web_Links
 		
