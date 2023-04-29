@@ -295,11 +295,13 @@ function themefooter(){ include_once(theme_dir.'footer.php'); }
 #--------------------#
 # News Index Section #
 #--------------------#
+include_once(theme_dir.'function_themeindex.php');
 include_once(theme_dir.'function_themeblogindex.php');
 
 #----------------------#
 # News Article Section #
 #----------------------#
+include_once(theme_dir.'function_themearticle.php');
 include_once(theme_dir.'function_themeblogarticle.php');
 
 #-------------------#
