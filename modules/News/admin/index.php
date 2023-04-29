@@ -38,6 +38,13 @@
       Display Writes                           v1.0.0       10/14/2005
       Custom Text Area                         v1.0.0       11/23/2005
  ************************************************************************/
+ 
+/* Applied rules: Ernest Allen Buffington (TheGhost) 04/26/2023 5:25 PM
+ * AddDefaultValueForUndefinedVariableRector (https://github.com/vimeo/psalm/blob/29b70442b11e3e66113935a2ee22e165a70c74a4/docs/fixing_code.md#possiblyundefinedvariable)
+ * TernaryToNullCoalescingRector
+ * CountOnNullRector (https://3v4l.org/Bndc9)
+ * NullToStrictStringFuncCallArgRector
+ */ 
 
 if (!defined('ADMIN_FILE')) {
    die('Access Denied');
@@ -60,6 +67,8 @@ $ne_config = ne_get_configs();
  [ Mod:    Display Topic Icon                  v1.0.0 ]
  ******************************************************/
 function topicicon($topic_icon) {
+    $sel1 = null;
+    $sel2 = null;
     echo "<br /><strong>"._DISPLAY_T_ICON."</strong>&nbsp;&nbsp;";
     if (($topic_icon == 0) OR (empty($topic_icon))) {
         $sel1 = "checked";
@@ -80,6 +89,8 @@ function topicicon($topic_icon) {
  [ Mod:    Display Writes                      v1.0.0 ]
  ******************************************************/
 function writes($writes) {
+    $sel1 = null;
+    $sel2 = null;
     echo "<br /><strong>"._DISPLAY_WRITES."</strong>&nbsp;&nbsp;";
     if (($writes == 1) || (!is_int($writes))) {
         $sel1 = "";
@@ -96,6 +107,8 @@ function writes($writes) {
  ******************************************************/
 
 function puthome($ihome, $acomm) {
+    $sel1 = null;
+    $sel2 = null;
     echo "<br /><strong>"._PUBLISHINHOME."</strong>&nbsp;&nbsp;";
     if (($ihome == 0) OR (empty($ihome))) {
         $sel1 = "checked";
@@ -173,7 +186,7 @@ function putpoll($pollTitle, $optionText) {
         ."<font class=\"content\">"._POLLEACHFIELD."</font><br />"
         ."<table border=\"0\" style=\"margin:auto;\">";
     for($i = 1; $i <= 12; $i++)        {
-        $optional = isset($optionText[$i]) ? $optionText[$i] : '';
+        $optional = $optionText[$i] ?? '';
         echo "<tr>"
             ."<td>"._OPTION." $i:</td><td><input type=\"text\" name=\"optionText[$i]\" size=\"50\" maxlength=\"50\" value=\"".$optional."\"></td>"
             ."</tr>";
@@ -209,6 +222,7 @@ function AddCategory () {
 }
 
 function EditCategory($catid) {
+    $sel = null;
     global $prefix, $db, $admin_file;
     $catid = intval($catid);
     $result = $db->sql_query("select title from ".$prefix."_stories_cat where catid='$catid'");
@@ -367,7 +381,7 @@ function NoMoveCategory($catid, $newcat) {
 
 function SaveEditCategory($catid, $title) {
     global $prefix, $db, $admin_file;
-    $title = str_replace("\"","",$title);
+    $title = str_replace("\"","",(string) $title);
     $result = $db->sql_query("select catid from ".$prefix."_stories_cat where title='$title'");
     $catid = intval($catid);
         $check = $db->sql_numrows($result);
@@ -403,7 +417,7 @@ function SaveEditCategory($catid, $title) {
 
 function SaveCategory($title) {
     global $prefix, $db, $admin_file;
-    $title = str_replace("\"","",$title);
+    $title = str_replace("\"","",(string) $title);
     $result = $db->sql_query("select catid from ".$prefix."_stories_cat where title='$title'");
         $check = $db->sql_numrows($result);
     if ($check) {
@@ -444,11 +458,14 @@ function autodelete($anid) {
 }
 
 function autoEdit($anid) {
+    $sid = null;
+    $subject = null;
+    $sel = null;
     global $aid, $bgcolor1, $bgcolor2, $prefix, $db, $multilingual, $admin_file, $module_name;
     $sid = intval($sid);
-    $aid = substr($aid, 0,25);
+    $aid = substr((string) $aid, 0,25);
     list($aaid) = $db->sql_ufetchrow("select aid from ".$prefix."_stories where sid='$sid'", SQL_NUM);
-    $aaid = substr($aaid, 0,25);
+    $aaid = substr((string) $aaid, 0,25);
     if (is_mod_admin($module_name)) {
     include(NUKE_BASE_DIR.'header.php');
 /*****[BEGIN]******************************************
@@ -463,8 +480,8 @@ function autoEdit($anid) {
  [ Mod:    Display Writes                      v1.0.0 ]
  ******************************************************/
     $catid = intval($catid);
-    $aid = substr($aid, 0,25);
-    $informant = substr($informant, 0,25);
+    $aid = substr((string) $aid, 0,25);
+    $informant = substr((string) $informant, 0,25);
     $ihome = intval($ihome);
     $acomm = intval($acomm);
 /*****[BEGIN]******************************************
@@ -477,7 +494,7 @@ function autoEdit($anid) {
  [ Mod:    Display Topic Icon                  v1.0.0 ]
  [ Mod:    Display Writes                      v1.0.0 ]
  ******************************************************/
-    preg_match ("/([0-9]{4})\-([0-9]{1,2})\-([0-9]{1,2}) ([0-9]{1,2})\:([0-9]{1,2})\:([0-9]{1,2})/", $time, $datetime);
+    preg_match ("/([0-9]{4})\-([0-9]{1,2})\-([0-9]{1,2}) ([0-9]{1,2})\:([0-9]{1,2})\:([0-9]{1,2})/", (string) $time, $datetime);
     
 	OpenTable();
 	echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=adminStory\">" . _NEWS_ADMIN_HEADER . "</a></div>\n";
@@ -517,10 +534,10 @@ function autoEdit($anid) {
 /*****[END]********************************************
  [ Mod:     News BBCodes                       v1.0.0 ]
  ******************************************************/
-    $title = stripslashes($title);
-    $hometext = stripslashes($hometext);
-    $bodytext = stripslashes($bodytext);
-    $notes = stripslashes($notes);
+    $title = stripslashes((string) $title);
+    $hometext = stripslashes((string) $hometext);
+    $bodytext = stripslashes((string) $bodytext);
+    $notes = stripslashes((string) $notes);
     $result=$db->sql_query("select topicimage from ".$prefix."_topics where topicid='$topic'");
     list($topicimage) = $db->sql_fetchrow($result);
     echo "<table border=\"0\" width=\"75%\" cellpadding=\"0\" cellspacing=\"1\" bgcolor=\"$bgcolor2\" align=\"center\"><tr><td>"
@@ -579,9 +596,9 @@ function autoEdit($anid) {
             ."<select name=\"alanguage\">";
         $languages = lang_list();
         echo '<option value=""'.(($alanguage == '') ? ' selected="selected"' : '').'>'._ALL."</option>\n";
-        for ($i=0, $j = count($languages); $i < $j; $i++) {
+        for ($i=0, $j = is_countable($languages) ? count($languages) : 0; $i < $j; $i++) {
             if ($languages[$i] != '') {
-                echo '<option value="'.$languages[$i].'"'.(($alanguage == $languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst($languages[$i])."</option>\n";
+                echo '<option value="'.$languages[$i].'"'.(($alanguage == $languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst((string) $languages[$i])."</option>\n";
             }
         }
         echo '</select>';
@@ -699,15 +716,16 @@ function autoEdit($anid) {
  [ Mod:    Display Writes                      v1.0.0 ]
  ******************************************************/
 function autoSaveEdit($anid, $year, $day, $month, $hour, $min, $title, $hometext, $bodytext, $topic, $notes, $catid, $ihome, $alanguage, $acomm, $topic_icon, $writes) {
-/*****[END]********************************************
+$sid = null;
+    /*****[END]********************************************
  [ Mod:    Display Topic Icon                  v1.0.0 ]
  [ Mod:    Display Writes                      v1.0.0 ]
  ******************************************************/
     global $aid, $ultramode, $prefix, $db, $admin_file, $module_name;
     $sid = intval($sid);
-    $aid = substr($aid, 0,25);
+    $aid = substr((string) $aid, 0,25);
     list($aaid) = $db->sql_ufetchrow("select aid from ".$prefix."_stories where sid='$sid'", SQL_NUM);
-    $aaid = substr($aaid, 0,25);
+    $aaid = substr((string) $aaid, 0,25);
     if (is_mod_admin($module_name)) {
     if ($day < 10) {
         $day = "0$day";
@@ -760,6 +778,14 @@ function autoSaveEdit($anid, $year, $day, $month, $hour, $min, $title, $hometext
 }
 
 function displayStory($qid) {
+    $topic_icon = null;
+    $sel = null;
+    $cat = null;
+    $writes = null;
+    $ihome = null;
+    $acomm = null;
+    $pollTitle = null;
+    $optionText = null;
     global $user, $admin_file, $subject, $story, $bgcolor1, $bgcolor2, $anonymous, $user_prefix, $prefix, $db, $multilingual;
     include(NUKE_BASE_DIR.'header.php');
     
@@ -801,9 +827,9 @@ function displayStory($qid) {
     list($qid, $uid, $uname, $subject, $story, $storyext, $topic, $alanguage) = $db->sql_fetchrow($result);
         $qid = intval($qid);
         $uid = intval($uid);
-    $subject = stripslashes($subject);
-    $story = stripslashes($story);
-    $storyext = stripslashes($storyext);
+    $subject = stripslashes((string) $subject);
+    $story = stripslashes((string) $story);
+    $storyext = stripslashes((string) $storyext);
 
 /*****[BEGIN]******************************************
  [ Mod:     News BBCodes                       v1.0.0 ]
@@ -906,9 +932,9 @@ function displayStory($qid) {
             ."<select name=\"alanguage\">";
         $languages = lang_list();
         echo '<option value=""'.(($alanguage == '') ? ' selected="selected"' : '').'>'._ALL."</option>\n";
-        for ($i=0, $j = count($languages); $i < $j; $i++) {
+        for ($i=0, $j = is_countable($languages) ? count($languages) : 0; $i < $j; $i++) {
             if ($languages[$i] != '') {
-                echo '<option value="'.$languages[$i].'"'.(($alanguage == $languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst($languages[$i])."</option>\n";
+                echo '<option value="'.$languages[$i].'"'.(($alanguage == $languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst((string) $languages[$i])."</option>\n";
             }
         }
         echo '</select>';
@@ -1007,7 +1033,11 @@ function displayStory($qid) {
  [ Mod:    Display Writes                      v1.0.0 ]
  ******************************************************/
 function previewStory($automated, $year, $day, $month, $hour, $min, $qid, $uid, $author, $subject, $hometext, $bodytext, $topic, $notes, $catid, $ihome, $alanguage, $acomm, $topic_icon, $writes, $pollTitle, $optionText, $assotop) {
-/*****[END]********************************************
+$sel = null;
+    $associated = null;
+    $checked = null;
+    $language = null;
+    /*****[END]********************************************
  [ Mod:    Display Topic Icon                  v1.0.0 ]
  [ Mod:    Display Writes                      v1.0.0 ]
  ******************************************************/
@@ -1043,10 +1073,10 @@ function previewStory($automated, $year, $day, $month, $hour, $min, $qid, $uid, 
         $tsec = "0$tsec";
     }
     $date = "$tmonth $tday, $tyear @ $thour:$tmin:$tsec";
-    $subject = stripslashes($subject);
-    $hometext = stripslashes($hometext);
-    $bodytext = stripslashes($bodytext);
-    $notes = stripslashes($notes);
+    $subject = stripslashes((string) $subject);
+    $hometext = stripslashes((string) $hometext);
+    $bodytext = stripslashes((string) $bodytext);
+    $notes = stripslashes((string) $notes);
     OpenTable();
 /*****[BEGIN]******************************************
  [ Mod:     News BBCodes                       v1.0.0 ]
@@ -1106,7 +1136,7 @@ function previewStory($automated, $year, $day, $month, $hour, $min, $qid, $uid, 
     echo "<br /><br />";
     // Copyright (c) 2000-2005 by NukeScripts Network
     if($Version_Num >= 6.6) {
-        for ($i=0; $i<count($assotop); $i++) { $associated .= "$assotop[$i]-"; }
+        for ($i=0; $i<(is_countable($assotop) ? count($assotop) : 0); $i++) { $associated .= "$assotop[$i]-"; }
         $asso_t = explode("-", $associated);
         echo "<table border='0' width='100%' cellspacing='0'><tr><td width='20%'><strong>"._ASSOTOPIC."</strong></td><td width='100%'>"
             ."<table border='1' cellspacing='3' cellpadding='8'><tr>";
@@ -1152,9 +1182,9 @@ function previewStory($automated, $year, $day, $month, $hour, $min, $qid, $uid, 
             ."<select name=\"alanguage\">";
         $languages = lang_list();
         echo '<option value=""'.(($alanguage == '') ? ' selected="selected"' : '').'>'._ALL."</option>\n";
-        for ($i=0, $j = count($languages); $i < $j; $i++) {
+        for ($i=0, $j = is_countable($languages) ? count($languages) : 0; $i < $j; $i++) {
             if ($languages[$i] != '') {
-                echo '<option value="'.$languages[$i].'"'.(($alanguage == $languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst($languages[$i])."</option>\n";
+                echo '<option value="'.$languages[$i].'"'.(($alanguage == $languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst((string) $languages[$i])."</option>\n";
             }
         }
         echo '</select>';
@@ -1273,13 +1303,15 @@ function previewStory($automated, $year, $day, $month, $hour, $min, $qid, $uid, 
  [ Mod:    Display Writes                      v1.0.0 ]
  ******************************************************/
 function postStory($automated, $year, $day, $month, $hour, $min, $qid, $uid, $author, $subject, $hometext, $bodytext, $topic, $notes, $catid, $ihome, $alanguage, $acomm, $topic_icon, $writes, $pollTitle, $optionText, $assotop) {
-/*****[END]********************************************
+$associated = null;
+    $topic_id = null;
+    /*****[END]********************************************
  [ Mod:    Display Topic Icon                  v1.0.0 ]
  [ Mod:    Display Writes                      v1.0.0 ]
  ******************************************************/
     global $aid, $admin_file, $ultramode, $prefix, $db, $user_prefix, $Version_Num, $ne_config, $adminmail, $sitename, $nukeurl, $cache;
     // Copyright (c) 2000-2005 by NukeScripts Network
-    if($Version_Num >= 6.6) { for ($i=0; $i<count($assotop); $i++) { $associated .= "$assotop[$i]-"; }  }
+    if($Version_Num >= 6.6) { for ($i=0; $i<(is_countable($assotop) ? count($assotop) : 0); $i++) { $associated .= "$assotop[$i]-"; }  }
     // Copyright (c) 2000-2005 by NukeScripts Network
 
     if ($automated == 1) {
@@ -1365,7 +1397,7 @@ function postStory($automated, $year, $day, $month, $hour, $min, $qid, $uid, $au
             $object = $db->sql_fetchrow($db->sql_query("SELECT pollID FROM ".$prefix."_poll_desc WHERE pollTitle='$pollTitle'"));
             $id = $object["pollID"];
             $id = intval($id);
-            for($i = 1, $maxi = count($optionText); $i <= $maxi; $i++) {
+            for($i = 1, $maxi = is_countable($optionText) ? count($optionText) : 0; $i <= $maxi; $i++) {
                 if(!empty($optionText[$i])) {
                     $optionText[$i] = Fix_Quotes($optionText[$i]);
                 }
@@ -1417,11 +1449,12 @@ function postStory($automated, $year, $day, $month, $hour, $min, $qid, $uid, $au
 }
 
 function editStory($sid) {
+    $sel = null;
     global $user, $admin_file, $bgcolor1, $bgcolor2, $aid, $prefix, $db, $multilingual, $Version_Num, $module_name;
-    $aid = substr($aid, 0,25);
+    $aid = substr((string) $aid, 0,25);
     $sid = intval($sid);
     list($aaid) = $db->sql_ufetchrow("select aid from ".$prefix."_stories where sid='$sid'", SQL_NUM);
-    $aaid = substr($aaid, 0,25);
+    $aaid = substr((string) $aaid, 0,25);
     if (is_mod_admin($module_name)) {
         include(NUKE_BASE_DIR.'header.php');
         
@@ -1445,10 +1478,10 @@ function editStory($sid) {
  [ Mod:    Display Writes                      v1.0.0 ]
  ******************************************************/
         $catid = intval($catid);
-        $subject = stripslashes($subject);
-        $hometext = stripslashes($hometext);
-        $bodytext = stripslashes($bodytext);
-        $notes = stripslashes($notes);
+        $subject = stripslashes((string) $subject);
+        $hometext = stripslashes((string) $hometext);
+        $bodytext = stripslashes((string) $bodytext);
+        $notes = stripslashes((string) $notes);
         $ihome = intval($ihome);
         $acomm = intval($acomm);
         $aid = $aid;
@@ -1507,7 +1540,7 @@ function editStory($sid) {
             $asql = "SELECT associated FROM ".$prefix."_stories WHERE sid='$sid'";
             $aresult = $db->sql_query($asql);
             $arow = $db->sql_fetchrow($aresult);
-            $asso_t = explode("-", $arow['associated']);
+            $asso_t = explode("-", (string) $arow['associated']);
             echo "<table border='0' width='100%' cellspacing='0'><tr><td width='20%'><strong>"._ASSOTOPIC."</strong></td><td width='100%'>"
                 ."<table border='1' cellspacing='3' cellpadding='8'><tr>";
             $sql = "SELECT topicid, topictext FROM ".$prefix."_topics ORDER BY topictext";
@@ -1553,9 +1586,9 @@ function editStory($sid) {
                 ."<select name=\"alanguage\">";
             $languages = lang_list();
             echo '<option value=""'.(($alanguage == '') ? ' selected="selected"' : '').'>'._ALL."</option>\n";
-            for ($i=0, $j = count($languages); $i < $j; $i++) {
+            for ($i=0, $j = is_countable($languages) ? count($languages) : 0; $i < $j; $i++) {
                 if ($languages[$i] != '') {
-                    echo '<option value="'.$languages[$i].'"'.(($alanguage == $languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst($languages[$i])."</option>\n";
+                    echo '<option value="'.$languages[$i].'"'.(($alanguage == $languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst((string) $languages[$i])."</option>\n";
                 }
             }
             echo '</select>';
@@ -1606,11 +1639,12 @@ function editStory($sid) {
 }
 
 function removeStory($sid, $ok=0) {
+    $counter = null;
     global $ultramode, $aid, $prefix, $db, $admin_file, $module_name;
     $sid = intval($sid);
-    $aid = substr($aid, 0,25);
+    $aid = substr((string) $aid, 0,25);
     list($aaid) = $db->sql_ufetchrow("select aid from ".$prefix."_stories where sid='$sid'", SQL_NUM);
-    $aaid = substr($aaid, 0,25);
+    $aaid = substr((string) $aaid, 0,25);
     if (is_mod_admin($module_name)) {
         if($ok) {
             $counter--;
@@ -1667,18 +1701,20 @@ function removeStory($sid, $ok=0) {
  [ Mod:    Display Writes                      v1.0.0 ]
  ******************************************************/
 function changeStory($sid, $subject, $hometext, $bodytext, $topic, $notes, $catid, $ihome, $alanguage, $acomm, $topic_icon, $writes, $assotop) {
-/*****[END]********************************************
+$version_Num = null;
+    $associated = null;
+    /*****[END]********************************************
  [ Mod:    Display Topic Icon                  v1.0.0 ]
  [ Mod:    Display Writes                      v1.0.0 ]
  ******************************************************/
     global $aid, $ultramode, $prefix, $db, $Version_Num, $admin_file, $module_name;
     // Copyright (c) 2000-2005 by NukeScripts Network
-    if($version_Num >= 6.6) { for ($i=0; $i<count($assotop); $i++) { $associated .= "$assotop[$i]-"; } }
+    if($version_Num >= 6.6) { for ($i=0; $i<(is_countable($assotop) ? count($assotop) : 0); $i++) { $associated .= "$assotop[$i]-"; } }
     // Copyright (c) 2000-2005 by NukeScripts Network
     $sid = intval($sid);
-    $aid = substr($aid, 0,25);
+    $aid = substr((string) $aid, 0,25);
     list($aaid) = $db->sql_ufetchrow("select aid from ".$prefix."_stories where sid='$sid'", SQL_NUM);
-    $aaid = substr($aaid, 0,25);
+    $aaid = substr((string) $aaid, 0,25);
     if (is_mod_admin($module_name)) {
         $subject = Fix_Quotes($subject);
         $hometext = Fix_Quotes($hometext);
@@ -1703,6 +1739,8 @@ function changeStory($sid, $subject, $hometext, $bodytext, $topic, $notes, $cati
 }
 
 function adminStory() {
+    $topic = null;
+    $sel = null;
     global $prefix, $db, $language, $multilingual, $Version_Num, $admin_file, $aid, $module_name, $bgcolor1;
     include(NUKE_BASE_DIR.'header.php');
     
@@ -1792,7 +1830,7 @@ function adminStory() {
         $result5 = $db->sql_query("SELECT anid, aid, title, time, alanguage FROM ".$prefix."_autonews $queryalang ORDER BY time ASC");
         while (list($anid, $aid, $listtitle, $time, $alanguage) = $db->sql_fetchrow($result5)) {
             $anid = intval($anid);
-            $said = substr($aid, 0,25);
+            $said = substr((string) $aid, 0,25);
             $title = $listtitle;
             if (empty($alanguage)) {
                 $alanguage = ""._ALL."";
@@ -1802,7 +1840,7 @@ function adminStory() {
                     echo "<table border=\"1\" width=\"100%\">";
                     $count = 1;
                 }
-                $time = str_replace(" ", "@", $time);
+                $time = str_replace(" ", "@", (string) $time);
                 if (is_mod_admin('News')) {
                     if ($aid == $said) {
                         echo "<tr><td nowrap>&nbsp;(<a href=\"".$admin_file.".php?op=autoEdit&amp;anid=$anid\">"._EDIT."</a>-<a href=\"".$admin_file.".php?op=autoDelete&amp;anid=$anid\">"._DELETE."</a>)&nbsp;</td><td width=\"100%\">&nbsp;$title&nbsp;</td><td align=\"center\">&nbsp;$alanguage&nbsp;</td><td nowrap>&nbsp;$time&nbsp;</td></tr>"; /* Multilingual Code : added column to display language */
@@ -1904,9 +1942,9 @@ function adminStory() {
             ."<select name=\"alanguage\">";
         $languages = lang_list();
         echo '<option value=""'.(($alanguage == '') ? ' selected="selected"' : '').'>'._ALL."</option>\n";
-        for ($i=0, $j = count($languages); $i < $j; $i++) {
+        for ($i=0, $j = is_countable($languages) ? count($languages) : 0; $i < $j; $i++) {
             if ($languages[$i] != '') {
-                echo '<option value="'.$languages[$i].'"'.(($alanguage == $languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst($languages[$i])."</option>\n";
+                echo '<option value="'.$languages[$i].'"'.(($alanguage == $languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst((string) $languages[$i])."</option>\n";
             }
         }
         echo '</select>';
@@ -1998,7 +2036,17 @@ function adminStory() {
  [ Mod:    Display Writes                      v1.0.0 ]
  ******************************************************/
 function previewAdminStory($automated, $year, $day, $month, $hour, $min, $subject, $hometext, $bodytext, $topic, $catid, $ihome, $alanguage, $acomm, $topic_icon, $writes, $pollTitle, $optionText, $assotop) {
-/*****[END]********************************************
+$sid = null;
+    $informant = null;
+    $aid = null;
+    $time = null;
+    $sel = null;
+    $Version_num = null;
+    $associated = null;
+    $a = null;
+    $checked = null;
+    $language = null;
+    /*****[END]********************************************
  [ Mod:    Display Topic Icon                  v1.0.0 ]
  [ Mod:    Display Writes                      v1.0.0 ]
  ******************************************************/
@@ -2039,10 +2087,10 @@ function previewAdminStory($automated, $year, $day, $month, $hour, $min, $subjec
 /*****[END]********************************************
  [ Mod:     News BBCodes                       v1.0.0 ]
  ******************************************************/
-    $subject = stripslashes($subject);
+    $subject = stripslashes((string) $subject);
     $subject = str_replace("\"", "''", $subject);
-    $hometext = stripslashes($hometext);
-    $bodytext = stripslashes($bodytext);
+    $hometext = stripslashes((string) $hometext);
+    $bodytext = stripslashes((string) $bodytext);
     $result=$db->sql_query("select topicimage, topicname, topictext  from ".$prefix."_topics where topicid='$topic'");
     list($topicimage, $topicname, $topictext) = $db->sql_fetchrow($result);
 /*****[BEGIN]******************************************
@@ -2080,7 +2128,7 @@ function previewAdminStory($automated, $year, $day, $month, $hour, $min, $subjec
     echo "</select><br /><br />";
     // Copyright (c) 2000-2005 by NukeScripts Network
     if($Version_num >= 6.6) {
-        for ($i=0; $i<count($assotop); $i++) { $associated .= "$assotop[$i]-"; }
+        for ($i=0; $i<(is_countable($assotop) ? count($assotop) : 0); $i++) { $associated .= "$assotop[$i]-"; }
         $asso_t = explode("-", $associated);
         echo "<table border='0' width='100%' cellspacing='0'><tr><td width='20%'><strong>"._ASSOTOPIC."</strong></td><td width='100%'>"
             ."<table border='1' cellspacing='3' cellpadding='8'><tr>";
@@ -2125,9 +2173,9 @@ function previewAdminStory($automated, $year, $day, $month, $hour, $min, $subjec
             ."<select name=\"alanguage\">";
         $languages = lang_list();
         echo '<option value=""'.(($alanguage == '') ? ' selected="selected"' : '').'>'._ALL."</option>\n";
-        for ($i=0, $j = count($languages); $i < $j; $i++) {
+        for ($i=0, $j = is_countable($languages) ? count($languages) : 0; $i < $j; $i++) {
             if ($languages[$i] != '') {
-                echo '<option value="'.$languages[$i].'"'.(($alanguage == $languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst($languages[$i])."</option>\n";
+                echo '<option value="'.$languages[$i].'"'.(($alanguage == $languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst((string) $languages[$i])."</option>\n";
             }
         }
         echo '</select>';
@@ -2233,13 +2281,15 @@ function previewAdminStory($automated, $year, $day, $month, $hour, $min, $subjec
  [ Mod:    Display Writes                      v1.0.0 ]
  ******************************************************/
 function postAdminStory($automated, $year, $day, $month, $hour, $min, $subject, $hometext, $bodytext, $topic, $catid, $ihome, $alanguage, $acomm, $topic_icon, $writes, $pollTitle, $optionText, $assotop) {
-/*****[END]********************************************
+$associated = null;
+    $notes = null;
+    /*****[END]********************************************
  [ Mod:    Display Topic Icon                  v1.0.0 ]
  [ Mod:    Display Writes                      v1.0.0 ]
  ******************************************************/
     global $ultramode, $aid, $prefix, $db, $Version_Num, $admin_file;
     // Copyright (c) 2000-2005 by NukeScripts Network
-    if($Version_Num >= 6.6) { for ($i=0; $i<count($assotop); $i++) { $associated .= "$assotop[$i]-"; } }
+    if($Version_Num >= 6.6) { for ($i=0; $i<(is_countable($assotop) ? count($assotop) : 0); $i++) { $associated .= "$assotop[$i]-"; } }
     // Copyright (c) 2000-2005 by NukeScripts Network
     if ($automated == 1) {
         if ($day < 10) {
@@ -2253,7 +2303,7 @@ function postAdminStory($automated, $year, $day, $month, $hour, $min, $subject, 
         $notes = "";
         $author = $aid;
         $subject = Fix_Quotes($subject);
-        $subject = str_replace("\"", "''", $subject);
+        $subject = str_replace("\"", "''", (string) $subject);
         $hometext = Fix_Quotes($hometext);
         $bodytext = Fix_Quotes($bodytext);
         $notes = Fix_Quotes($notes);
@@ -2292,7 +2342,7 @@ function postAdminStory($automated, $year, $day, $month, $hour, $min, $subject, 
             $object = $db->sql_fetchrow($db->sql_query("SELECT pollID FROM ".$prefix."_poll_desc WHERE pollTitle='$pollTitle'"));
             $id = $object["pollID"];
             $id = intval($id);
-            for($i = 1, $maxi = count($optionText); $i <= $maxi; $i++) {
+            for($i = 1, $maxi = is_countable($optionText) ? count($optionText) : 0; $i <= $maxi; $i++) {
                 if(!empty($optionText[$i])) {
                     $optionText[$i] = Fix_Quotes($optionText[$i]);
                 }
@@ -2391,7 +2441,7 @@ function submissions() {
                 } else {
                         echo "</td><td align=\"center\" nowrap><font size=\"2\">&nbsp;$uname&nbsp;</font>\n";
                 }
-                $timestamp = explode(" ", $timestamp);
+                $timestamp = explode(" ", (string) $timestamp);
                 echo "</td><td align=\"right\" nowrap><span class=\"content\">&nbsp;$timestamp[0]&nbsp;</span></td><td align=\"center\"><font class=\"content\">&nbsp;<a href=\"".$admin_file.".php?op=DeleteStory&amp;qid=$qid\">"._DELETE."</a>&nbsp;</td></tr>\n";
                 $dummy++;
             }
