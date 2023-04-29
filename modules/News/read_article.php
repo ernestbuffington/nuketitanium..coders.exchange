@@ -85,8 +85,8 @@ $title = $row["title"];
  ******************************************************/
 $hometext = decode_bbcode(set_smilies(stripslashes((string) $row["hometext"])), 1, true);
 $bodytext = decode_bbcode(set_smilies(stripslashes((string) $row["bodytext"])), 1, true);
-$bodytext = evo_img_tag_to_resize($bodytext);
-$hometext = evo_img_tag_to_resize($hometext);
+$bodytext = img_tag_to_resize($bodytext);
+$hometext = img_tag_to_resize($hometext);
 /*****[END]********************************************
  [ Mod:     News BBCodes                       v1.0.0 ]
  ******************************************************/
