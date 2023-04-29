@@ -116,7 +116,7 @@ switch ($op) {
  [ Mod:     News BBCodes                       v1.0.0 ]
  ******************************************************/
             $artinfo["hometext"] =  decode_bbcode(set_smilies(stripslashes($artinfo["hometext"])), 1, true);
-            $artinfo["hometext"] = evo_img_tag_to_resize($artinfo["hometext"]);
+            $artinfo["hometext"] = img_tag_to_resize($artinfo["hometext"]);
 /*****[END]********************************************
  [ Mod:     News BBCodes                       v1.0.0 ]
  ******************************************************/
