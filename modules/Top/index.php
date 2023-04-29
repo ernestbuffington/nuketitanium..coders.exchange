@@ -23,6 +23,11 @@
 -=[Base]=-
       Nuke Patched                             v3.1.0       06/26/2005
  ************************************************************************/
+ 
+/* Applied rules: Ernest Allen Buffington (TheGhost) 04/29/2023 6:01 PM
+ * CountOnNullRector (https://3v4l.org/Bndc9)
+ * NullToStrictStringFuncCallArgRector
+ */ 
 
 if (!defined('MODULE_FILE')) {
    die('You can\'t access this file directly...');
@@ -60,7 +65,7 @@ if ($db->sql_numrows($result) > 0) {
     echo "<div style=\"padding: 10px;\"><span class=\"option\"><strong>$top "._READSTORIES."</strong></span><ol>\n";
     while ($row = $db->sql_fetchrow($result)) {
         $sid = intval($row['sid']);
-        $title = stripslashes(check_html($row['title'], "nohtml"));
+        $title = stripslashes((string) check_html($row['title'], "nohtml"));
         $counter = intval($row['counter']);
         if($counter>0) {
             echo "<li><a href=\"modules.php?name=News&amp;file=article&amp;sid=$sid\">$title</a> - ($counter "._READS.")</li>\n";
@@ -77,7 +82,7 @@ if ($db->sql_numrows($result2) > 0) {
     echo "<div style=\"padding: 10px;\"><span class=\"option\"><strong>$top "._MOSTVOTEDSTORIES."</strong></span><ol>\n";
     while ($row2 = $db->sql_fetchrow($result2)) {
         $sid = intval($row2['sid']);
-        $title = stripslashes(check_html($row2['title'], "nohtml"));
+        $title = stripslashes((string) check_html($row2['title'], "nohtml"));
         $ratings = intval($row2['ratings']);
         if($ratings>0) {
             echo "<li><a href=\"modules.php?name=News&amp;file=article&amp;sid=$sid\">$title</a> - ($ratings "._LVOTES.")</li>\n";
@@ -94,7 +99,7 @@ if ($db->sql_numrows($result3) > 0) {
     echo "<div style=\"padding: 10px;\"><span class=\"option\"><strong>$top "._BESTRATEDSTORIES."</strong></span><ol>\n";
     while ($row3 = $db->sql_fetchrow($result3)) {
         $sid = intval($row3['sid']);
-        $title = stripslashes(check_html($row3['title'], "nohtml"));
+        $title = stripslashes((string) check_html($row3['title'], "nohtml"));
         $score = intval($row3['score']);
         $ratings = intval($row3['ratings']);
         if($score>0) {
@@ -114,7 +119,7 @@ if ($articlecomm == 1) {
         echo "<div style=\"padding: 10px;\"><span class=\"option\"><strong>$top "._COMMENTEDSTORIES."</strong></span><ol>\n";
         while ($row4 = $db->sql_fetchrow($result4)) {
             $sid = intval($row4['sid']);
-            $title = stripslashes(check_html($row4['title'], "nohtml"));
+            $title = stripslashes((string) check_html($row4['title'], "nohtml"));
             $comments = intval($row4['comments']);
             if($comments>0) {
                 echo "<li><a href=\"modules.php?name=News&amp;file=article&amp;sid=$sid\">$title</a> - ($comments "._COMMENTS.")</li>\n";
@@ -132,7 +137,7 @@ if ($db->sql_numrows($result5) > 0) {
     echo "<div style=\"padding: 10px;\"><span class=\"option\"><strong>$top "._ACTIVECAT."</strong></span><ol>\n";
     while ($row5 = $db->sql_fetchrow($result5)) {
         $catid = intval($row5['catid']);
-        $title = stripslashes(check_html($row5['title'], "nohtml"));
+        $title = stripslashes((string) check_html($row5['title'], "nohtml"));
         $counter = intval($row5['counter']);
         if($counter>0) {
             echo "<li><a href=\"modules.php?name=News&amp;file=categories&amp;op=newindex&amp;catid=$catid\">$title</a> - ($counter "._HITS.")</li>\n";
@@ -148,7 +153,7 @@ $result7 = $db->sql_query("SELECT username, counter FROM ".$user_prefix."_users 
 if ($db->sql_numrows($result7) > 0) {
     echo "<div style=\"padding: 10px;\"><span class=\"option\"><strong>$top "._NEWSSUBMITTERS."</strong></span><ol>\n";
     while ($row7 = $db->sql_fetchrow($result7)) {
-        $uname = stripslashes($row7['username']);
+        $uname = stripslashes((string) $row7['username']);
         $counter = intval($row7['counter']);
         if($counter>0) {
             echo "<li><a href=\"modules.php?name=Your_Account&amp;op=userinfo&amp;username=$uname\">$uname</a> - ($counter "._NEWSSENT.")</li>\n";
@@ -170,7 +175,7 @@ if ($db->sql_numrows($result8)>0) {
         $counter++;
     }
     $db->sql_freeresult($result9);
-    for ($count = 0; $count < count($resultArray); $count++) {
+    for ($count = 0; $count < (is_countable($resultArray) ? count($resultArray) : 0); $count++) {
         $id = $resultArray[$count][0];
         $pollTitle = $resultArray[$count][1];
         $voters = $resultArray[$count][3];
@@ -196,7 +201,7 @@ $result11 = $db->sql_query("SELECT aid, counter FROM ".$prefix."_authors ORDER B
 if ($db->sql_numrows($result11) > 0) {
     echo "<div style=\"padding: 10px;\"><span class=\"option\"><strong>$top "._MOSTACTIVEAUTHORS."</strong></span><ol>\n";
     while ($row11 = $db->sql_fetchrow($result11)) {
-        $aid = stripslashes($row11['aid']);
+        $aid = stripslashes((string) $row11['aid']);
         $counter = intval($row11['counter']);
         if($counter>0) {
             echo "<li><a href=\"modules.php?name=Search&amp;query=&amp;author=$aid\">$aid</a> - ($counter "._NEWSPUBLISHED.")</li>\n";
@@ -213,7 +218,7 @@ if ($db->sql_numrows($result12) > 0) {
     echo "<div style=\"padding: 10px;\"><span class=\"option\"><strong>$top "._READREVIEWS."</strong></span><ol>\n";
     while ($row12 = $db->sql_fetchrow($result12)) {
         $id = intval($row12['id']);
-        $title = stripslashes(check_html($row12['title'], "nohtml"));
+        $title = stripslashes((string) check_html($row12['title'], "nohtml"));
         $hits = intval($row12['hits']);
         if($hits>0) {
             echo "<li><a href=\"modules.php?name=Reviews&amp;op=showcontent&amp;id=$id\">$title</a> - ($hits "._READS.")</li>\n";
@@ -231,11 +236,11 @@ if ($db->sql_numrows($result13) > 0) {
     while ($row13 = $db->sql_fetchrow($result13)) {
         $lid = intval($row13['lid']);
         $cid = intval($row13['cid']);
-        $title = stripslashes(check_html($row13['title'], "nohtml"));
+        $title = stripslashes((string) check_html($row13['title'], "nohtml"));
         $hits = intval($row13['hits']);
         if($hits>0) {
             $row_res = $db->sql_fetchrow($db->sql_query("SELECT title FROM ".$prefix."_downloads_categories WHERE cid='$cid'"));
-            $ctitle = stripslashes(check_html($row_res['title'], "nohtml"));
+            $ctitle = stripslashes((string) check_html($row_res['title'], "nohtml"));
             $utitle = str_replace(" ", "_", $title);
             echo "<li><a href=\"modules.php?name=Downloads&amp;d_op=viewdownloaddetails&amp;lid=$lid&amp;ttitle=$utitle\">$title</a> ("._CATEGORY.": $ctitle) - ($hits "._LDOWNLOADS.")</li>\n";
         }
@@ -251,7 +256,7 @@ if ($db->sql_numrows($result14) > 0) {
     echo "<div style=\"padding: 10px;\"><span class=\"option\"><strong>$top "._MOSTREADPAGES."</strong></span><ol>\n";
     while ($row14 = $db->sql_fetchrow($result14)) {
         $pid = intval($row14['pid']);
-        $title = stripslashes(check_html($row14['title'], "nohtml"));
+        $title = stripslashes((string) check_html($row14['title'], "nohtml"));
         $counter = intval($row14['counter']);
         if($counter>0) {
             echo "<li><a href=\"modules.php?name=Content&amp;pa=showpage&amp;pid=$pid\">$title</a> ($counter "._READS.")</li>\n";
