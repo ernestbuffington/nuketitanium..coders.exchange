@@ -25,6 +25,8 @@
       Display Topic Icon                       v1.0.0       06/27/2005
       Display Writes                           v1.0.0       10/14/2005
  ************************************************************************/
+ 
+define_once('_ASSOTOPIC','Associated Topics');
 define_once('_SUBMISSIONS','Submissons');
 define_once('_TOPICS','Topics Manager');
 define_once('_BY','by');
