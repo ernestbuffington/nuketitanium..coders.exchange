@@ -41,6 +41,8 @@ get_lang($module_name);
 // we only show the left blocks, else the page gets messed up
 $showblocks = 1;
 
+if(!isset($op)) { $op = ''; }
+
 if (isset($sid)) { $sid = intval($sid); } else { $sid = ""; }
 
 if (stristr($_SERVER['REQUEST_URI'],"mainfile")) {
@@ -81,8 +83,8 @@ $title = stripslashes(check_html($row["title"], "nohtml"));
  ******************************************************/
 $hometext = decode_bbcode(set_smilies(stripslashes($row["hometext"])), 1, true);
 $bodytext = decode_bbcode(set_smilies(stripslashes($row["bodytext"])), 1, true);
-$hometext = evo_img_tag_to_resize($hometext);
-$bodytext = evo_img_tag_to_resize($bodytext);
+$hometext = img_tag_to_resize($hometext);
+$bodytext = img_tag_to_resize($bodytext);
 /*****[END]********************************************
  [ Mod:     News BBCodes                       v1.0.0 ]
  ******************************************************/
