@@ -2411,7 +2411,7 @@ function UsernameColor($username, $old_name=false)
     return $cached_names[$plain_username] = $cached_names[$plain_username] ?? $username;
 }
 
-function automated_news() {
+function automated_news_old() {
 
 	$date = [];
     
