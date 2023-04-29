@@ -45,11 +45,12 @@ get_lang($module_name);
 function defaultDisplay() {
     global $prefix, $cookie, $anonymous, $currentlang, $multilingual, $db, $module_name;
     include_once(NUKE_BASE_DIR.'header.php');
-    OpenTable();
+    
+	OpenTable();
     echo '<div class="nuketitle">'._SUBMITNEWS.'</div><br /><br />';
     echo "<div style=\"font-style: italic; text-align: center;\">"._SUBMITADVICE."</div><br />\n";
     CloseTable();
-    echo '<br />';
+    
     OpenTable();
 /*****[BEGIN]******************************************
  [ Mod:     News BBCodes                       v1.0.0 ]
@@ -111,18 +112,22 @@ function defaultDisplay() {
     echo '<br /><br /><input type="submit" name="op" value="'._PREVIEW."\">\n";
     echo '<br />('._SUBPREVIEW.")</form>\n";
     CloseTable();
-    include_once(NUKE_BASE_DIR.'footer.php');
+    
+	include_once(NUKE_BASE_DIR.'footer.php');
 }
 
 function PreviewStory($name, $address, $subject, $story, $storyext, $topic, $alanguage, $posttype) {
     $topictext = null;
     $sel = null;
-    global $user, $cookie, $bgcolor1, $bgcolor2, $anonymous, $prefix, $multilingual, $AllowableHTML, $db, $module_name, $tipath, $userinfo;
+    
+	global $user, $cookie, $bgcolor1, $bgcolor2, $anonymous, $prefix, $multilingual, $AllowableHTML, $db, $module_name, $tipath, $userinfo;
     include_once(NUKE_BASE_DIR.'header.php');
-    $subject = stripslashes((string) check_html($subject, 'nohtml'));
+    
+	$subject = stripslashes((string) check_html($subject, 'nohtml'));
     $story = stripslashes((string) $story);
     $storyext = stripslashes((string) $storyext);
-    if (empty($story) && empty($storyext)) {
+    
+	if (empty($story) && empty($storyext)) {
         DisplayError(_ERROR_STORY);
     }
     if (empty($subject)) {
@@ -140,7 +145,7 @@ function PreviewStory($name, $address, $subject, $story, $storyext, $topic, $ala
     OpenTable();
     echo '<div class="nuketitle">'._NEWSUBPREVIEW."</div>\n";
     CloseTable();
-    echo '<br />';
+    
     OpenTable();
     echo '<div style="font-style: italic; text-align: center;">'._STORYLOOK.'</div><br /><br />';
     if (empty($topic)) {
@@ -156,7 +161,7 @@ function PreviewStory($name, $address, $subject, $story, $storyext, $topic, $ala
     echo $warning;
     echo '<br /><br /><center><span class="tiny">'._CHECKSTORY."</span></center>\n";
     CloseTable();
-    echo '<br />';
+    
     OpenTable();
 /*****[BEGIN]******************************************
  [ Mod:     News BBCodes                       v1.0.0 ]
@@ -216,7 +221,8 @@ function PreviewStory($name, $address, $subject, $story, $storyext, $topic, $ala
     echo "<input type=\"submit\" name=\"op\" value=\""._OK."\">\n";
     echo "</form>\n";
     CloseTable();
-    include_once(NUKE_BASE_DIR.'footer.php');
+    
+	include_once(NUKE_BASE_DIR.'footer.php');
 }
 
 function submitStory($name, $address, $subject, $story, $storyext, $topic, $alanguage, $posttype) {
@@ -280,10 +286,13 @@ function submitStory($name, $address, $subject, $story, $storyext, $topic, $alan
 if (!isset($address)) { $address = ''; }
 if (!isset($alanguage)) { $alanguage = ''; }
 
+$op ??= '';
+
 switch($op) {
 
     case _PREVIEW:
-        PreviewStory($name, $address, $subject, $story, $storyext, $topic, $alanguage, $posttype);
+        $posttype ??= '';
+		PreviewStory($name, $address, $subject, $story, $storyext, $topic, $alanguage, $posttype);
     break;
 
     case _OK:
