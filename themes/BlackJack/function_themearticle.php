@@ -6,8 +6,8 @@ if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
 /*--------------------------*/
 /* Theme Article 
 /*--------------------------*/
-function themeblogarticle($aid, $informant, $datetime, $modified, $title, $counter, $thetext, $topic, $topicname, $topicimage, $topictext, $writes = false) 
-{
+function themearticle($aid, $informant, $datetime, $title, $thetext, $topic, $topicname, $topicimage, $topictext){
+
   print "\n\n<!-- THEME ARTICAL CONTENT START -->\n";
 
   global $userinfo, $bgcolor4, $admin, $sid, $tipath, $theme_name, $appID, $my_url;
@@ -28,7 +28,7 @@ function themeblogarticle($aid, $informant, $datetime, $modified, $title, $count
 	    $content = $thetext.$notes;
 	else 
 	{
-		if ($writes)
+		if (isset($writes))
 		{
 			if (!empty($informant)) 
 			{
@@ -45,7 +45,7 @@ function themeblogarticle($aid, $informant, $datetime, $modified, $title, $count
 	}
 
 print '<section id="content">';  
-
+if(!isset($counter)) { $counter = 9634; }
 $posted = '<strong>Posted by '.get_author($aid).' '.$datetime.'</strong>'.PHP_EOL;
 $reads = '(<span style="color: '.$digits_txt_color.';"> Reads :</span> <span style="color: '.$digits_color.';"><strong>'.$counter.'</strong></span> )'.PHP_EOL;
 
@@ -68,32 +68,6 @@ print blog_signature($aid).''.PHP_EOL;
 
 print '</div>'.PHP_EOL;
 print '<br/><br/>';
-/*
-print '<section id="comments">';
-
-print '<div align="left" id="respond">';
-
-print '  <h3>Leave a Comment</h3>';
-
-print '  <form action="post_comment.php" method="post" id="commentform">';
-
-print '    <label for="comment_author" class="required">Your name</label><br/>';
-print '    <input type="text" name="comment_author" id="comment_author" value="'.$userinfo['username'].'" tabindex="1" required="required"><br/>';
-
-print '    <label for="email" class="required">Your email;</label><br/>';
-print '    <input type="email" name="email" id="email" value="'.$userinfo['user_email'].'" tabindex="2" required="required"><br/>';
-
-print '    <label for="comment" class="required">Your message</label><br/>';
-print '    <textarea name="comment" id="comment" rows="10" tabindex="4"  required="required"></textarea><br/>';
-
-//print '    <-- comment_post_ID value hard-coded as 1 -->';
-print '    <input type="hidden" name="comment_post_ID" value="1" id="comment_post_ID" /><br/>';
-print '    <input name="submit" type="submit" value="Submit comment" /><br/>';
-
-print '  </form>';
-
-print '</div>';
-*/
 
 echo '<div valign="bottom" align="right">'.$reads.'</div>'.PHP_EOL;
 
