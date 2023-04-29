@@ -39,13 +39,13 @@ function ne_get_configs(){
 /*****[BEGIN]******************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
-    if(($config = $cache->load('news', 'config')) === false) {
+    if((($config = $cache->load('news', 'config')) === false) || empty($config)) {
 /*****[END]********************************************
  [ Base:    Caching System                     v3.0.0 ]
  ******************************************************/
         $configresult = $db->sql_query("SELECT config_name, config_value FROM ".$prefix."_nsnne_config");
-        while (list($config_name, $config_value) = $db->sql_fetchrow($configresult)) {
-			$config= [];
+        $config = [];
+		while (list($config_name, $config_value) = $db->sql_fetchrow($configresult)) {
             $config[$config_name] = $config_value;
         }
         $db->sql_freeresult($configresult);
