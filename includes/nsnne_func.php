@@ -45,6 +45,7 @@ function ne_get_configs(){
  ******************************************************/
         $configresult = $db->sql_query("SELECT config_name, config_value FROM ".$prefix."_nsnne_config");
         while (list($config_name, $config_value) = $db->sql_fetchrow($configresult)) {
+			$config= [];
             $config[$config_name] = $config_value;
         }
         $db->sql_freeresult($configresult);
