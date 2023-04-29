@@ -689,7 +689,12 @@ return static function (RectorConfig $rectorConfig): void {
 		//////__DIR__ . '/modules/Content/index.php',
 		
 		#NukeTitanium: modules/Downloads
+		
 		#NukeTitanium: modules/Encyclopedia
+		__DIR__ . '/modules/Encyclopedia/admin/index.php',
+		//__DIR__ . '/modules/Encyclopedia/index.php',
+		//__DIR__ . '/modules/Encyclopedia/searh.php',
+		
 		#NukeTitanium: modules/ErrorDocuments
 		#NukeTitanium: modules/FAQ
 		#NukeTitanium: modules/Feedback
