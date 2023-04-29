@@ -519,14 +519,24 @@ function honeypot()
 	
 		if (($page_numberpos=='top') OR ($page_numberpos=='both') ) {
 	
-			if($total_pages >=2){
-				$adjacents = 3;
-				$page = (int)$_GET["page"];
-					if($page<=0) $page = 1;
-						$reload = $page_url;
-			// call pagination function:
-				echo "<p>";
-				echo paginate($reload, $page, $total_pages, $adjacents).'</p>';
+			if($total_pages >= 2){
+			  $adjacents = 3;
+			  
+			  if(isset($_GET["page"])) {
+			    $page = (int)$_GET["page"];
+			  }
+			  
+			  if(isset($page) && $page <= 0) {
+			    $page = 1;
+			  }
+			  
+			  if(!isset($page)) { $page = 1; }
+			  
+			  $reload = $page_url;
+			  
+			  // call pagination function:
+			  echo "<p>";
+			  echo paginate($reload, $page, $total_pages, $adjacents).'</p>';
 			} 
 		}
 
@@ -582,7 +592,10 @@ function honeypot()
 			$result = $db->sql_query("SELECT id, username, realname, email, ip, date, potnum, reason FROM ".$prefix."_honeypot ORDER BY id $orderby $limitQ");
 		}
 		$total_count = $db->sql_numrows($result);
+		
 		while ($row = $db->sql_fetchrow($result)) {
+		
+		if(!isset($row_color)) { $row_color = ''; }
 		$row_color = ( $rowcolor1 != $row_color ) ? $rowcolor1 : $rowcolor2;
 
 		if ($row['potnum'] == 0){
@@ -658,12 +671,22 @@ function honeypot()
 
 			if($total_pages >=2){
 				$adjacents = 3;
-				$page = (int)$_GET["page"];
-					if($page<=0) $page = 1;
-					$reload = $page_url;
-			// call pagination function:
-				echo '<p>' , PHP_EOL
-				. paginate($reload, $page, $total_pages, $adjacents).'</p>' , PHP_EOL;
+				
+			  if(isset($_GET["page"])) {
+			    $page = (int)$_GET["page"];
+			  }
+			  
+			  if(isset($page) && $page <= 0) {
+			    $page = 1;
+			  }
+			  
+			  if(!isset($page)) { $page = 1; }				
+				
+				
+			  $reload = $page_url;
+			  // call pagination function:
+			  echo '<p>' , PHP_EOL
+			  . paginate($reload, $page, $total_pages, $adjacents).'</p>' , PHP_EOL;
 			}
 		}
 	echo '<div class="pagination" style="text-align:right;">' , PHP_EOL
