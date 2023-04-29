@@ -827,7 +827,16 @@ return static function (RectorConfig $rectorConfig): void {
 		
 		
 		#NukeTitanium: modules/nukeNAV
+		
 		#NukeTitanium: modules/NukeSentinel
+		//////__DIR__ . '/modules/NukeSentinel/index.php',
+		//////__DIR__ . '/modules/NukeSentinel/public/STIPS.php',
+		//////__DIR__ . '/modules/NukeSentinel/public/functions.php',
+		//////__DIR__ . '/modules/NukeSentinel/public/STIndex.php',
+		__DIR__ . '/modules/NukeSentinel/public/STIP2C.php',
+		//__DIR__ . '/modules/NukeSentinel/public/STRanges.php',
+		//__DIR__ . '/modules/NukeSentinel/public/STReferers.php',
+		
 		#NukeTitanium: modules/nukeSPAM
 		
 		#NukeTitanium: modules/Private_Messages
@@ -851,7 +860,7 @@ return static function (RectorConfig $rectorConfig): void {
 		#NukeTitanium: modules/Tags
 		
 		#NukeTitanium: modules/Top
-		__DIR__ . '/modules/Top/index.php',
+		//////__DIR__ . '/modules/Top/index.php',
 		
 		#NukeTitanium: modules/Topics
 		#NukeTitanium: modules/Web_Links
