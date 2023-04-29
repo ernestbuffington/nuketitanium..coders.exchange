@@ -23,6 +23,10 @@
 -=[Base]=-
       Nuke Patched                             v3.1.0       06/26/2005
  ************************************************************************/
+ 
+/* Applied rules: Ernest Allen Buffington (TheGhost) 04/29/2023 5:32 PM
+ * NullToStrictStringFuncCallArgRector
+ */ 
 
 if (!defined('MODULE_FILE')) {
    die('You can\'t access this file directly...');
@@ -37,7 +41,7 @@ $db->sql_freeresult($query);
 if (!empty($associated)) {
     OpenTable();
     echo "<center><strong>"._ASSOTOPIC."</strong><br /><br />";
-     $asso_t = explode("-",$associated);
+     $asso_t = explode("-",(string) $associated);
     for ($i=0; $i<count($asso_t); $i++) {
     if (!empty($asso_t[$i])) {
         $query = $db->sql_query("SELECT topicimage, topictext from ".$prefix."_topics WHERE topicid='".$asso_t[$i]."'");
