@@ -843,7 +843,10 @@ return static function (RectorConfig $rectorConfig): void {
 		#NukeTitanium: modules/Statistics
 		#NukeTitanium: modules/Stories_Archive
 		#NukeTitanium: modules/Submit_Downloads
+		
 		#NukeTitanium: modules/Submit_News
+		__DIR__ . '/modules/Submit_News/index.php',
+		
 		#NukeTitanium: modules/Surveys
 		#NukeTitanium: modules/Tags
 		#NukeTitanium: modules/Top
