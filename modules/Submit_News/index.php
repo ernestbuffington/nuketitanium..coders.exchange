@@ -28,6 +28,12 @@
       News BBCodes                             v1.0.0       10/05/2005
       Custom Text Area                         v1.0.0       11/23/2005
  ************************************************************************/
+ 
+/* Applied rules: Ernest Allen Buffington (TheGhost) 04/29/2023 5:50 PM
+ * AddDefaultValueForUndefinedVariableRector (https://github.com/vimeo/psalm/blob/29b70442b11e3e66113935a2ee22e165a70c74a4/docs/fixing_code.md#possiblyundefinedvariable)
+ * CountOnNullRector (https://3v4l.org/Bndc9)
+ * NullToStrictStringFuncCallArgRector
+ */ 
 
 if (!defined('MODULE_FILE')) {
    die('You can\'t access this file directly...');
@@ -69,7 +75,7 @@ function defaultDisplay() {
     echo "<option value=\"\">"._SELECTTOPIC."</option>\n";
     while ($row = $db->sql_fetchrow($result)) {
         $topicid = (int)$row['topicid'];
-        $topics = stripslashes(check_html($row['topictext'], "nohtml"));
+        $topics = stripslashes((string) check_html($row['topictext'], "nohtml"));
         echo "<option value=\"$topicid\">$topics</option>\n";
     }
     $db->sql_freeresult($result);
@@ -79,9 +85,9 @@ function defaultDisplay() {
         echo "<select name=\"alanguage\">\n";
         $languages = lang_list();
         echo '<option value=""'.(($currentlang == '') ? ' selected="selected"' : '').'>'._ALL."</option>\n";
-        for ($i=0, $j = count($languages); $i < $j; $i++) {
+        for ($i=0, $j = is_countable($languages) ? count($languages) : 0; $i < $j; $i++) {
             if ($languages[$i] != '') {
-                echo '<option value="'.$languages[$i].'"'.(($currentlang == $languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst($languages[$i])."</option>\n";
+                echo '<option value="'.$languages[$i].'"'.(($currentlang == $languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst((string) $languages[$i])."</option>\n";
             }
         }
         echo '</select>';
@@ -109,11 +115,13 @@ function defaultDisplay() {
 }
 
 function PreviewStory($name, $address, $subject, $story, $storyext, $topic, $alanguage, $posttype) {
+    $topictext = null;
+    $sel = null;
     global $user, $cookie, $bgcolor1, $bgcolor2, $anonymous, $prefix, $multilingual, $AllowableHTML, $db, $module_name, $tipath, $userinfo;
     include_once(NUKE_BASE_DIR.'header.php');
-    $subject = stripslashes(check_html($subject, 'nohtml'));
-    $story = stripslashes($story);
-    $storyext = stripslashes($storyext);
+    $subject = stripslashes((string) check_html($subject, 'nohtml'));
+    $story = stripslashes((string) $story);
+    $storyext = stripslashes((string) $storyext);
     if (empty($story) && empty($storyext)) {
         DisplayError(_ERROR_STORY);
     }
@@ -141,8 +149,8 @@ function PreviewStory($name, $address, $subject, $story, $storyext, $topic, $ala
     } else {
         $warning = '';
         $row = $db->sql_fetchrow($db->sql_query("SELECT `topicimage`, `topictext` FROM `".$prefix."_topics` WHERE `topicid`='$topic'"));
-        $topicimage = stripslashes($row['topicimage']);
-        $topictext = stripslashes($row['topictext']);
+        $topicimage = stripslashes((string) $row['topicimage']);
+        $topictext = stripslashes((string) $row['topictext']);
     }
     themearticle($userinfo['username'], UsernameColor($userinfo['username']), '',$subject, $story, $topic, $topic, $topicimage, $topictext);
     echo $warning;
@@ -170,7 +178,7 @@ function PreviewStory($name, $address, $subject, $story, $storyext, $topic, $ala
     echo '<option VALUE="">'._SELECTTOPIC."</option>\n";
     while ($row2 = $db->sql_fetchrow($result2)) {
         $topicid = (int)$row2['topicid'];
-        $topics = stripslashes(check_html($row2['topictext'], "nohtml"));
+        $topics = stripslashes((string) check_html($row2['topictext'], "nohtml"));
         if ($topicid == $topic) {
             $sel = 'selected ';
         }
@@ -184,9 +192,9 @@ function PreviewStory($name, $address, $subject, $story, $storyext, $topic, $ala
         echo "<select name=\"alanguage\">\n";
         $languages = lang_list();
         echo '<option value=""'.(($alanguage == '') ? ' selected="selected"' : '').'>'._ALL."</option>\n";
-        for ($i=0, $j = count($languages); $i < $j; $i++) {
+        for ($i=0, $j = is_countable($languages) ? count($languages) : 0; $i < $j; $i++) {
             if ($languages[$i] != '') {
-                echo '<option value="'.$languages[$i].'"'.(($alanguage == $languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst($languages[$i])."</option>\n";
+                echo '<option value="'.$languages[$i].'"'.(($alanguage == $languages[$i]) ? ' selected="selected"' : '').'>'.ucfirst((string) $languages[$i])."</option>\n";
             }
         }
         echo '</select>';
@@ -221,8 +229,8 @@ function submitStory($name, $address, $subject, $story, $storyext, $topic, $alan
         $name = $anonymous;
     }
     $subject = Fix_Quotes(filter_text($subject, "nohtml"));
-    $story = Fix_Quotes(nl2br(check_words($story)));
-    $storyext = Fix_Quotes(nl2br(check_words($storyext)));
+    $story = Fix_Quotes(nl2br((string) check_words($story)));
+    $storyext = Fix_Quotes(nl2br((string) check_words($storyext)));
     $result = $db->sql_query("INSERT INTO ".$prefix."_queue VALUES (NULL, '$uid', '$name', '$subject', '$story', '$storyext', now(), '$topic', '$alanguage')");
     if(!$result) {
         echo _ERROR."<br />";
