@@ -23,7 +23,7 @@
 /* NSN News                                             */
 /* By: NukeScripts Network (webmaster@nukescripts.net)  */
 /* http://www.nukescripts.net                           */
-/* Copyright (c) 2000-2005 by NukeScripts Network         */
+/* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
 
 if (!defined('ADMIN_FILE')) {
@@ -46,19 +46,15 @@ function topicsmanager() {
     include(NUKE_BASE_DIR."header.php");
     OpenTable();
 	echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=topicsmanager\">" . _TOPICS_ADMIN_HEADER . "</a></div>\n";
-    echo "<br /><br />";
 	echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _TOPICS_RETURNMAIN . "</a> ]</div>\n";
 	CloseTable();
-	echo "<br />";
+
     OpenTable();
-    echo "<center><span class=\"title\"><strong>"._TOPICSMANAGER . "</strong></span></center>";
-    CloseTable();
-    echo "<br />";
-    OpenTable();
+    echo "<div align=\"center\"><span class=\"title\"><strong><h1>"._TOPICSMANAGER . "</h1></strong></span></div><br/>";
     echo "<center><span class=\"option\"><strong>"._CURRENTTOPICS . "</strong></span><br />"._CLICK2EDIT . "</span></center><br />"
         ."<table border=\"0\" width=\"100%\" align=\"center\" cellpadding=\"2\">";
     $count = 0;
-    $result = $db->sql_query("SELECT topicid, topicname, topicimage, topictext from " . $prefix . "_topics order by topicname");
+    $result = $db->sql_query("SELECT topicid, topicname, topicimage, topictext FROM " . $prefix . "_topics ORDER BY topicname");
     while ($row = $db->sql_fetchrow($result)) {
         $topicid = intval($row['topicid']);
         $topicname = $row['topicname'];
@@ -75,10 +71,12 @@ function topicsmanager() {
     }
     echo "</table>";
     CloseTable();
-    echo "<br /><a name=\"Add\"></a>";
+    echo "<a name=\"Add\"></a>";
     OpenTable();
-    echo "<center><span class=\"option\"><strong>"._ADDATOPIC . "</strong></span></center><br />"
-            ."<form action=\"".$admin_file.".php\" method=\"post\">"
+	if(!isset($topicname)) { $topicname = ''; }
+	if(!isset($topictext)) { $topictext = ''; }
+    echo "<div align=\"center\"><span class=\"option\"><strong>"._ADDATOPIC . "</strong></span></div><br />"
+        ."<form action=\"".$admin_file.".php\" method=\"post\">"
         ."<strong>"._TOPICNAME . ":</strong><br /><span class=\"tiny\">"._TOPICNAME1 . "<br />"
         .""._TOPICNAME2 . "</span><br />"
         ."<input type=\"text\" name=\"topicname\" size=\"20\" maxlength=\"20\" value=\"$topicname\"><br /><br />"
@@ -117,11 +115,11 @@ function topicedit($topicid) {
     echo "<br /><br />";
 	echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _TOPICS_RETURNMAIN . "</a> ]</div>\n";
 	CloseTable();
-	echo "<br />";
+	
     OpenTable();
     echo "<center><span class=\"title\"><strong>"._TOPICSMANAGER . "</strong></span></center>";
     CloseTable();
-    echo "<br />";
+    
     OpenTable();
         $query = $db->sql_query("SELECT topicid, topicname, topicimage, topictext from ".$prefix . "_topics where topicid='$topicid'");
         list($topicid, $topicname, $topicimage, $topictext) = $db->sql_fetchrow($query);
@@ -192,7 +190,7 @@ function relatededit($tid, $rid) {
     echo "<br /><br />";
 	echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _TOPICS_RETURNMAIN . "</a> ]</div>\n";
 	CloseTable();
-	echo "<br />";
+	
     OpenTable();
     echo "<center><span class=\"title\"><strong>"._TOPICSMANAGER . "</strong></span></center>";
     CloseTable();
@@ -285,12 +283,12 @@ function topicdelete($topicid, $ok=0) {
         echo "<br /><br />";
 	    echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _TOPICS_RETURNMAIN . "</a> ]</div>\n";
 	    CloseTable();
-	    echo "<br />";
+	    
         OpenTable();
         echo "<center><span class=\"title\"><strong>" . _TOPICSMANAGER . "</strong></span></center>";
         CloseTable();
-        echo "<br />";
-    $row3 = $db->sql_fetchrow($db->sql_query("SELECT topicimage, topictext from " . $prefix . "_topics where topicid='$topicid'"));
+        
+        $row3 = $db->sql_fetchrow($db->sql_query("SELECT topicimage, topictext from " . $prefix . "_topics where topicid='$topicid'"));
         $topicimage = $row3['topicimage'];
         $topictext = $row3['topictext'];
         OpenTable();
