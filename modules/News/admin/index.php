@@ -22,7 +22,7 @@
 /* NSN News                                             */
 /* By: NukeScripts Network (webmaster@nukescripts.net)  */
 /* http://www.nukescripts.net                           */
-/* Copyright (c) 2000-2005 by NukeScripts Network         */
+/* Copyright (c) 2000-2005 by NukeScripts Network       */
 /********************************************************/
 
 /*****[CHANGES]**********************************************************
@@ -186,16 +186,16 @@ function putpoll($pollTitle, $optionText) {
 function AddCategory () {
     global $admin_file;
     include(NUKE_BASE_DIR.'header.php');
+ 
     OpenTable();
 	echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=adminStory\">" . _NEWS_ADMIN_HEADER . "</a></div>\n";
-    echo "<br /><br />";
 	echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div>\n";
 	CloseTable();
-	echo "<br />";
+	
     OpenTable();
     echo "<center><span class=\"title\"><strong>"._CATEGORIESADMIN."</strong></span></center>";
     CloseTable();
-    echo "<br />";
+    
     OpenTable();
     echo "<center><span class=\"option\"><strong>"._CATEGORYADD."</strong></span><br /><br /><br />"
         ."<form action=\"".$admin_file.".php\" method=\"post\">"
@@ -214,16 +214,16 @@ function EditCategory($catid) {
     $result = $db->sql_query("select title from ".$prefix."_stories_cat where catid='$catid'");
     list($title) = $db->sql_fetchrow($result);
     include(NUKE_BASE_DIR.'header.php');
-    OpenTable();
+    
+	OpenTable();
 	echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=adminStory\">" . _NEWS_ADMIN_HEADER . "</a></div>\n";
-    echo "<br /><br />";
 	echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div>\n";
 	CloseTable();
-	echo "<br />";
+	
     OpenTable();
     echo "<center><span class=\"title\"><strong>"._CATEGORIESADMIN."</strong></span></center>";
     CloseTable();
-    echo "<br />";
+    
     OpenTable();
     echo "<center><span class=\"option\"><strong>"._EDITCATEGORY."</strong></span><br />";
     if (!$catid) {
@@ -261,16 +261,16 @@ function DelCategory($cat) {
     $result = $db->sql_query("select title from ".$prefix."_stories_cat where catid='$cat'");
     list($title) = $db->sql_fetchrow($result);
     include(NUKE_BASE_DIR.'header.php');
-    OpenTable();
+    
+	OpenTable();
 	echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=adminStory\">" . _NEWS_ADMIN_HEADER . "</a></div>\n";
-    echo "<br /><br />";
 	echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div>\n";
 	CloseTable();
-	echo "<br />";
+	
     OpenTable();
     echo "<center><span class=\"title\"><strong>"._CATEGORIESADMIN."</strong></span></center>";
     CloseTable();
-    echo "<br />";
+    
     OpenTable();
     echo "<center><span class=\"option\"><strong>"._DELETECATEGORY."</strong></span><br />";
     if (!$cat) {
@@ -325,16 +325,16 @@ function NoMoveCategory($catid, $newcat) {
     $result = $db->sql_query("select title from ".$prefix."_stories_cat where catid='$catid'");
     list($title) = $db->sql_fetchrow($result);
     include(NUKE_BASE_DIR.'header.php');
-    OpenTable();
+    
+	OpenTable();
 	echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=adminStory\">" . _NEWS_ADMIN_HEADER . "</a></div>\n";
-    echo "<br /><br />";
 	echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div>\n";
 	CloseTable();
-	echo "<br />";
+	
     OpenTable();
     echo "<center><span class=\"title\"><strong>"._CATEGORIESADMIN."</strong></span></center>";
     CloseTable();
-    echo "<br />";
+    
     OpenTable();
     echo "<center><span class=\"option\"><strong>"._MOVESTORIES."</strong></span><br /><br />";
     if (!$newcat) {
@@ -383,21 +383,22 @@ function SaveEditCategory($catid, $title) {
         }
     }
     include(NUKE_BASE_DIR.'header.php');
+   
     OpenTable();
 	echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=adminStory\">" . _NEWS_ADMIN_HEADER . "</a></div>\n";
-    echo "<br /><br />";
 	echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div>\n";
 	CloseTable();
-	echo "<br />";
+	
     OpenTable();
     echo "<center><span class=\"title\"><strong>"._CATEGORIESADMIN."</strong></span></center>";
     CloseTable();
-    echo "<br />";
+    
     OpenTable();
     echo "<center><span class=\"content\"><strong>$what1</strong></span><br /><br />";
     echo "$what2</center>";
     CloseTable();
-    include(NUKE_BASE_DIR.'footer.php');
+    
+	include(NUKE_BASE_DIR.'footer.php');
 }
 
 function SaveCategory($title) {
@@ -417,21 +418,22 @@ function SaveCategory($title) {
         }
     }
     include(NUKE_BASE_DIR.'header.php');
+   
     OpenTable();
 	echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=adminStory\">" . _NEWS_ADMIN_HEADER . "</a></div>\n";
-    echo "<br /><br />";
 	echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div>\n";
 	CloseTable();
-	echo "<br />";
+	
     OpenTable();
     echo "<center><span class=\"title\"><strong>"._CATEGORIESADMIN."</strong></span></center>";
     CloseTable();
-    echo "<br />";
+    
     OpenTable();
     echo "<center><span class=\"content\"><strong>$what1</strong></span><br /><br />";
     echo "$what2</center>";
     CloseTable();
-    include(NUKE_BASE_DIR.'footer.php');
+    
+	include(NUKE_BASE_DIR.'footer.php');
 }
 
 function autodelete($anid) {
@@ -476,16 +478,16 @@ function autoEdit($anid) {
  [ Mod:    Display Writes                      v1.0.0 ]
  ******************************************************/
     preg_match ("/([0-9]{4})\-([0-9]{1,2})\-([0-9]{1,2}) ([0-9]{1,2})\:([0-9]{1,2})\:([0-9]{1,2})/", $time, $datetime);
-    OpenTable();
+    
+	OpenTable();
 	echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=adminStory\">" . _NEWS_ADMIN_HEADER . "</a></div>\n";
-    echo "<br /><br />";
 	echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div>\n";
 	CloseTable();
-	echo "<br />";
+	
     OpenTable();
     echo "<center><span class=\"title\"><strong>"._ARTICLEADMIN."</strong></span></center>";
     CloseTable();
-    echo "<br />";
+    
     OpenTable();
     $today = getdate();
     $tday = $today[mday];
@@ -672,22 +674,23 @@ function autoEdit($anid) {
     include(NUKE_BASE_DIR.'footer.php');
     } else {
         include(NUKE_BASE_DIR.'header.php');
+ 
         OpenTable();
 	    echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=adminStory\">" . _NEWS_ADMIN_HEADER . "</a></div>\n";
-        echo "<br /><br />";
 	    echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div>\n";
 	    CloseTable();
-	    echo "<br />";
+	    
         OpenTable();
         echo "<center><span class=\"title\"><strong>"._ARTICLEADMIN."</strong></span></center>";
         CloseTable();
-        echo "<br />";
+        
         OpenTable();
         echo "<center><strong>"._NOTAUTHORIZED1."</strong><br /><br />"
             .""._NOTAUTHORIZED2."<br /><br />"
             .""._GOBACK."";
         CloseTable();
-        include(NUKE_BASE_DIR.'footer.php');
+        
+		include(NUKE_BASE_DIR.'footer.php');
     }
 }
 
@@ -736,38 +739,39 @@ function autoSaveEdit($anid, $year, $day, $month, $hour, $min, $title, $hometext
     redirect($admin_file.".php?op=adminStory");
     } else {
         include(NUKE_BASE_DIR.'header.php');
-        OpenTable();
+        
+		OpenTable();
 	    echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=adminStory\">" . _NEWS_ADMIN_HEADER . "</a></div>\n";
-        echo "<br /><br />";
-	    echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div>\n";
+ 	    echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div>\n";
 	    CloseTable();
-	    echo "<br />";
+	    
         OpenTable();
         echo "<center><span class=\"title\"><strong>"._ARTICLEADMIN."</strong></span></center>";
         CloseTable();
-        echo "<br />";
+        
         OpenTable();
         echo "<center><strong>"._NOTAUTHORIZED1."</strong><br /><br />"
             .""._NOTAUTHORIZED2."<br /><br />"
             .""._GOBACK."";
         CloseTable();
-        include(NUKE_BASE_DIR.'footer.php');
+        
+		include(NUKE_BASE_DIR.'footer.php');
     }
 }
 
 function displayStory($qid) {
     global $user, $admin_file, $subject, $story, $bgcolor1, $bgcolor2, $anonymous, $user_prefix, $prefix, $db, $multilingual;
     include(NUKE_BASE_DIR.'header.php');
-    OpenTable();
+    
+	OpenTable();
 	echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=adminStory\">" . _NEWS_ADMIN_HEADER . "</a></div>\n";
-    echo "<br /><br />";
 	echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div>\n";
 	CloseTable();
-	echo "<br />";
+	
     OpenTable();
     echo "<center><span class=\"title\"><strong>"._SUBMISSIONSADMIN."</strong></span></center>";
     CloseTable();
-    echo "<br />";
+    
     $today = getdate();
     $tday = $today[mday];
     if ($tday < 10){
@@ -991,10 +995,11 @@ function displayStory($qid) {
         ."</select>"
         ."<input type=\"submit\" value=\""._OK."\">&nbsp;&nbsp;[ <a href=\"".$admin_file.".php?op=DeleteStory&qid=$qid\">"._DELETE."</a> ]";
         CloseTable();
-    echo "<br />";
+    
     putpoll($pollTitle, $optionText);
     echo "</form>";
-    include(NUKE_BASE_DIR.'footer.php');
+    
+	include(NUKE_BASE_DIR.'footer.php');
 }
 
 /*****[BEGIN]******************************************
@@ -1008,16 +1013,16 @@ function previewStory($automated, $year, $day, $month, $hour, $min, $qid, $uid, 
  ******************************************************/
     global $user, $admin_file, $boxstuff, $anonymous, $bgcolor1, $bgcolor2, $user_prefix, $prefix, $db, $multilingual, $Version_Num;
     include(NUKE_BASE_DIR.'header.php');
-    OpenTable();
+    
+	OpenTable();
 	echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=adminStory\">" . _NEWS_ADMIN_HEADER . "</a></div>\n";
-    echo "<br /><br />";
 	echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div>\n";
 	CloseTable();
-	echo "<br />";
+	
     OpenTable();
     echo "<center><span class=\"title\"><strong>"._ARTICLEADMIN."</strong></span></center>";
     CloseTable();
-    echo "<br />";
+    
     $today = getdate();
     $tday = $today[mday];
     if ($tday < 10){
@@ -1256,10 +1261,11 @@ function previewStory($automated, $year, $day, $month, $hour, $min, $qid, $uid, 
         ."</select>"
         ."<input type=\"submit\" value=\""._OK."\">";
     CloseTable();
-    echo "<br />";
+    
     putpoll($pollTitle, $optionText);
     echo "</form>";
-    include(NUKE_BASE_DIR.'footer.php');
+    
+	include(NUKE_BASE_DIR.'footer.php');
 }
 
 /*****[BEGIN]******************************************
@@ -1418,16 +1424,16 @@ function editStory($sid) {
     $aaid = substr($aaid, 0,25);
     if (is_mod_admin($module_name)) {
         include(NUKE_BASE_DIR.'header.php');
-        OpenTable();
+        
+		OpenTable();
 	    echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=adminStory\">" . _NEWS_ADMIN_HEADER . "</a></div>\n";
-        echo "<br /><br />";
-	    echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div>\n";
+ 	    echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div>\n";
 	    CloseTable();
-	    echo "<br />";
+	    
         OpenTable();
         echo "<center><span class=\"title\"><strong>"._ARTICLEADMIN."</strong></span></center>";
         CloseTable();
-        echo "<br />";
+        
 /*****[BEGIN]******************************************
  [ Mod:    Display Topic Icon                  v1.0.0 ]
  [ Mod:    Display Writes                      v1.0.0 ]
@@ -1458,15 +1464,16 @@ function editStory($sid) {
  ******************************************************/
         $result2=$db->sql_query("select topicimage from ".$prefix."_topics where topicid='$topic'");
         list($topicimage) = $db->sql_fetchrow($result2);
-        OpenTable();
+        
+		OpenTable();
         echo "<center><span class=\"option\"><strong>"._EDITARTICLE."</strong></span></center><br />";
 /*****[BEGIN]******************************************
  [ Mod:     News BBCodes                       v1.0.0 ]
  ******************************************************/
         $hometext_bb = decode_bbcode(set_smilies(stripslashes(nl2br($hometext))), 1, true);
         $bodytext_bb = decode_bbcode(set_smilies(stripslashes(nl2br($bodytext))), 1, true);
-        $hometext_bb = evo_img_tag_to_resize($hometext_bb);
-        $bodytext_bb = evo_img_tag_to_resize($bodytext_bb);
+        $hometext_bb = img_tag_to_resize($hometext_bb);
+        $bodytext_bb = img_tag_to_resize($bodytext_bb);
         if($writes == 0) {
             define_once('WRITES', true);
         }
@@ -1578,22 +1585,23 @@ function editStory($sid) {
         include(NUKE_BASE_DIR.'footer.php');
     } else {
         include(NUKE_BASE_DIR.'header.php');
+ 
         OpenTable();
 	    echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=adminStory\">" . _NEWS_ADMIN_HEADER . "</a></div>\n";
-        echo "<br /><br />";
-	    echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div>\n";
+ 	    echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div>\n";
 	    CloseTable();
-	    echo "<br />";
+	    
         OpenTable();
         echo "<center><span class=\"title\"><strong>"._ARTICLEADMIN."</strong></span></center>";
         CloseTable();
-        echo "<br />";
+        
         OpenTable();
         echo "<center><strong>"._NOTAUTHORIZED1."</strong><br /><br />"
             .""._NOTAUTHORIZED2."<br /><br />"
             .""._GOBACK."";
         CloseTable();
-        include(NUKE_BASE_DIR.'footer.php');
+       
+	    include(NUKE_BASE_DIR.'footer.php');
     }
 }
 
@@ -1616,16 +1624,16 @@ function removeStory($sid, $ok=0) {
             redirect($admin_file.".php?op=adminStory");
         } else {
             include(NUKE_BASE_DIR.'header.php');
-            OpenTable();
+        
+		    OpenTable();
 	        echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=adminStory\">" . _NEWS_ADMIN_HEADER . "</a></div>\n";
-            echo "<br /><br />";
-	        echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div>\n";
+  	        echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div>\n";
 	        CloseTable();
-	        echo "<br />";
+	        
             OpenTable();
             echo "<center><span class=\"title\"><strong>"._ARTICLEADMIN."</strong></span></center>";
             CloseTable();
-            echo "<br />";
+            
             OpenTable();
             echo "<center>"._REMOVESTORY." $sid "._ANDCOMMENTS."";
            	echo "<br /><br />[ <a href=\"".$admin_file.".php?op=adminStory\">"._NO."</a> | <a href=\"".$admin_file.".php?op=RemoveStory&amp;sid=$sid&amp;ok=1\">"._YES."</a> ]</center>";
@@ -1634,22 +1642,23 @@ function removeStory($sid, $ok=0) {
         }
     } else {
         include(NUKE_BASE_DIR.'header.php');
-        OpenTable();
+        
+		OpenTable();
 	    echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=adminStory\">" . _NEWS_ADMIN_HEADER . "</a></div>\n";
-        echo "<br /><br />";
-	    echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div>\n";
+   	    echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div>\n";
 	    CloseTable();
-	    echo "<br />";
+	    
         OpenTable();
         echo "<center><span class=\"title\"><strong>"._ARTICLEADMIN."</strong></span></center>";
         CloseTable();
-        echo "<br />";
+        
         OpenTable();
         echo "<center><strong>"._NOTAUTHORIZED1."</strong><br /><br />"
             .""._NOTAUTHORIZED2."<br /><br />"
             .""._GOBACK."";
         CloseTable();
-        @include(NUKE_BASE_DIR.'footer.php');
+        
+		include(NUKE_BASE_DIR.'footer.php');
     }
 }
 
@@ -1696,29 +1705,25 @@ function changeStory($sid, $subject, $hometext, $bodytext, $topic, $notes, $cati
 function adminStory() {
     global $prefix, $db, $language, $multilingual, $Version_Num, $admin_file, $aid, $module_name, $bgcolor1;
     include(NUKE_BASE_DIR.'header.php');
-    OpenTable();
+    
+	OpenTable();
 	echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=adminStory\">" . _NEWS_ADMIN_HEADER . "</a></div>\n";
-    echo "<br /><br />";
 	echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div>\n";
 	CloseTable();
 
-	echo "<br />";
-
-    OpenTable();
+	OpenTable();
     echo '<div class="acenter">'._ARTICLEADMIN.'</div>';
     CloseTable();
-
-    echo "<br />";
 
     OpenTable();
     echo '<div style="width: 100%; text-align: center">';
     echo '	<div style="width: 33.3%; float: left"><a href="'.$admin_file.'.php?op=topicsmanager">'._TOPICS.'</a></div>';
     echo '	<div style="width: 33.3%; float: left"><a href="'.$admin_file.'.php?op=submissions">'._SUBMISSIONS.'</a></div>';
     echo '	<div style="width: 33.3%; float: left"><a href="'.$admin_file.'.php?op=NENewsConfig">'._NE_NEWSCONFIG.'</a></div>';
-    echo '</div>';
+    echo '</div><br/>';
     CloseTable();
 
-    echo "<br />";
+    
 /*****[BEGIN]******************************************
  [ Other:    News Fix                          v1.0.0 ]
  ******************************************************/
@@ -1771,7 +1776,7 @@ function adminStory() {
         ."</form></center>";
     }
     CloseTable();
-    echo "<br />";
+    
 
     if (!empty($admlanguage)) {
         $queryalang = "WHERE alanguage='$admlanguage' ";
@@ -1816,7 +1821,7 @@ function adminStory() {
             echo "</table>";
         }
         CloseTable();
-        echo "<br />";
+        
     }
 /*****[END]********************************************
  [ Other:    News Fix                          v1.0.0 ]
@@ -1982,7 +1987,7 @@ function adminStory() {
         ."</select>"
         ."<input type=\"submit\" value=\""._OK."\">";
     CloseTable();
-    echo "<br />";
+    
     putpoll('', '');
     echo "</form>";
     include(NUKE_BASE_DIR.'footer.php');
@@ -2002,16 +2007,16 @@ function previewAdminStory($automated, $year, $day, $month, $hour, $min, $subjec
     if ($topic<1) {
         $topic = 1;
     }
+   
     OpenTable();
 	echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=adminStory\">" . _NEWS_ADMIN_HEADER . "</a></div>\n";
-    echo "<br /><br />";
-	echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div>\n";
+ 	echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div>\n";
 	CloseTable();
-	echo "<br />";
+	
     OpenTable();
     echo "<center><span class=\"title\"><strong>"._ARTICLEADMIN."</strong></span></center>";
     CloseTable();
-    echo "<br />";
+    
     $today = getdate();
     $tday = $today['mday'];
     if ($tday < 10){ $tday = "0$tday"; }
@@ -2217,7 +2222,7 @@ function previewAdminStory($automated, $year, $day, $month, $hour, $min, $subjec
         ."</select>"
         ."<input type=\"submit\" value=\""._OK."\">";
     CloseTable();
-    echo "<br />";
+    
     putpoll($pollTitle, $optionText);
     echo "</form>";
     include(NUKE_BASE_DIR.'footer.php');
@@ -2332,16 +2337,16 @@ function submissions() {
     global $admin, $admin_file, $bgcolor1, $bgcolor2, $prefix, $db, $anonymous, $multilingual, $module_name;
     $dummy = 0;
     include(NUKE_BASE_DIR.'header.php');
+
     OpenTable();
 	echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=submissions\">" . _NEWSSUBMISSION_ADMIN_HEADER . "</a></div>\n";
-    echo "<br /><br />";
 	echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div>\n";
 	CloseTable();
-	echo "<br />";
+	
     OpenTable();
     echo "<center><span class=\"title\"><strong>"._SUBMISSIONSADMIN."</strong></span></center>";
     CloseTable();
-    echo "<br />";
+    
     OpenTable();
         $result = $db->sql_query("SELECT qid, uid, uname, subject, timestamp, alanguage FROM ".$prefix."_queue order by timestamp DESC");
         if($db->sql_numrows($result) == 0) {
@@ -2509,7 +2514,7 @@ switch($op) {
     break;
 
     case "adminStory":
-    adminStory($sid);
+    adminStory($sid='');
     break;
 
     case "PreviewAdminStory":
@@ -2563,12 +2568,12 @@ switch($op) {
     case "NENewsConfig":
         $pagetitle = ": "._NE_NEWSCONFIG;
         include(NUKE_BASE_DIR.'header.php');
+   
         OpenTable();
 	    echo "<div align=\"center\">\n<a href=\"$admin_file.php?op=NENewsConfig\">" . _NEWSCONFIG_ADMIN_HEADER . "</a></div>\n";
-        echo "<br /><br />";
 	    echo "<div align=\"center\">\n[ <a href=\"$admin_file.php\">" . _NEWS_RETURNMAIN . "</a> ]</div>\n";
 	    CloseTable();
-	    echo "<br />";
+	    
         $ne_config = ne_get_configs();
         title(_NE_NEWSCONFIG);
         OpenTable();
