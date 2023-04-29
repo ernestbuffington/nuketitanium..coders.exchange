@@ -1,75 +1,45 @@
 <?php
-
-
-
 /************************************************************************/
-
 /* PHP-NUKE: Web Portal System                                          */
-
 /* ===========================                                          */
-
 /*                                                                      */
-
 /* Copyright (c) 2023 by Francisco Burzi                                */
-
 /* https://phpnuke.coders.exchange                                      */
-
 /*                                                                      */
-
 /* This program is free software. You can redistribute it and/or modify */
-
 /* it under the terms of the GNU General Public License as published by */
-
 /* the Free Software Foundation; either version 2 of the License.       */
-
 /************************************************************************/
 
-
+/* Applied rules: Ernest Allen Buffington (TheGhost) 04/29/2023 6:45 PM
+ * AddDefaultValueForUndefinedVariableRector (https://github.com/vimeo/psalm/blob/29b70442b11e3e66113935a2ee22e165a70c74a4/docs/fixing_code.md#possiblyundefinedvariable)
+ * WhileEachToForeachRector (https://wiki.php.net/rfc/deprecations_php_7_2#each)
+ * NullToStrictStringFuncCallArgRector
+ */
 
 if (!defined('ADMIN_FILE')) {
-
 	die ("Access Denied");
-
 }
-
-
 
 global $prefix, $db, $admin_file;
 
 $aid = substr("$aid", 0,25);
-
 $row = $db->sql_fetchrow($db->sql_query("SELECT title, admins FROM ".$prefix."_modules WHERE title='Encyclopedia'"));
-
 $row2 = $db->sql_fetchrow($db->sql_query("SELECT name, radminsuper FROM ".$prefix."_authors WHERE aid='$aid'"));
-
-$admins = explode(",", $row['admins']);
-
+$admins = explode(",", (string) $row['admins']);
 $auth_user = 0;
 
 for ($i=0; $i < sizeof($admins); $i++) {
 
 	if ($row2['name'] == "$admins[$i]" AND !empty($row['admins'])) {
-
 		$auth_user = 1;
-
 	}
-
 }
 
-
-
 if ($row2['radminsuper'] == 1 || $auth_user == 1) {
-
-
-
 	/*********************************************************/
-
 	/* Sections Manager Functions                            */
-
 	/*********************************************************/
-
-
-
 	function alpha($eid) {
 
 		global $module_name, $prefix, $db, $admin_file;
@@ -84,33 +54,28 @@ if ($row2['radminsuper'] == 1 || $auth_user == 1) {
 
 		$counter = 0;
 
-		while (list(, $ltr) = each($alphabet)) {
-
-			$result = $db->sql_query("select * from ".$prefix."_encyclopedia_text where eid='$eid' AND UPPER(title) LIKE '$ltr%'");
-
-			if ($db->sql_numrows($result) > 0) {
-
-				echo "<a href=\"".$admin_file.".php?op=encyclopedia_terms&eid=$eid&ltr=$ltr\">$ltr</a>";
-
-			} else {
-
-				echo "$ltr";
-
-			}
-
-			if ( $counter == round($num/2) ) {
-
-				echo " ]\n<br>\n[ ";
-
-			} elseif ( $counter != $num ) {
-
-				echo "&nbsp;|&nbsp;\n";
-
-			}
-
-			$counter++;
-
-		}
+		foreach ($alphabet as $ltr) {
+      $result = $db->sql_query("select * from ".$prefix."_encyclopedia_text where eid='$eid' AND UPPER(title) LIKE '$ltr%'");
+      if ($db->sql_numrows($result) > 0) {
+   
+   				echo "<a href=\"".$admin_file.".php?op=encyclopedia_terms&eid=$eid&ltr=$ltr\">$ltr</a>";
+   
+   			} else {
+   
+   				echo "$ltr";
+   
+   			}
+      if ( $counter == round($num/2) ) {
+   
+   				echo " ]\n<br>\n[ ";
+   
+   			} elseif ( $counter != $num ) {
+   
+   				echo "&nbsp;|&nbsp;\n";
+   
+   			}
+      $counter++;
+  }
 
 		echo " ]</center><br><br>\n\n\n";
 
@@ -120,7 +85,8 @@ if ($row2['radminsuper'] == 1 || $auth_user == 1) {
 
 	function encyclopedia() {
 
-		global $prefix, $db, $language, $multilingual, $bgcolor2, $admin_file;
+		$languageslist = [];
+        global $prefix, $db, $language, $multilingual, $bgcolor2, $admin_file;
 
 		include("header.php");
 
@@ -204,7 +170,7 @@ if ($row2['radminsuper'] == 1 || $auth_user == 1) {
 
 			closedir($handle);
 
-			$languageslist = explode(" ", $languageslist);
+			$languageslist = explode(" ", (string) $languageslist);
 
 			sort($languageslist);
 
@@ -396,7 +362,8 @@ if ($row2['radminsuper'] == 1 || $auth_user == 1) {
 
 	function encyclopedia_edit($eid) {
 
-		global $prefix, $db, $language, $multilingual, $bgcolor2, $admin_file;
+		$languageslist = [];
+        global $prefix, $db, $language, $multilingual, $bgcolor2, $admin_file;
 
 		include("header.php");
 
@@ -460,7 +427,7 @@ if ($row2['radminsuper'] == 1 || $auth_user == 1) {
 
 			closedir($handle);
 
-			$languageslist = explode(" ", $languageslist);
+			$languageslist = explode(" ", (string) $languageslist);
 
 			sort($languageslist);
 
@@ -726,7 +693,8 @@ if ($row2['radminsuper'] == 1 || $auth_user == 1) {
 
 	function encyclopedia_change_status($eid, $active) {
 
-		global $prefix, $db, $admin_file;
+		$new_active = null;
+        global $prefix, $db, $admin_file;
 
 		$eid = intval($eid);
 
