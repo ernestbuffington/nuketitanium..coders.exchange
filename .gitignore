@@ -2,7 +2,6 @@
 _notes
 /desktop.ini
 /config.php
-/rector.php
 includes/log/*
 includes/cache/*
 pspbrwse.jbf
