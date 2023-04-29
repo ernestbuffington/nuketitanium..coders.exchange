@@ -6,8 +6,7 @@ if (realpath(__FILE__) == realpath($_SERVER['SCRIPT_FILENAME'])) {
 /*--------------------------*/
 /* Theme Index
 /*--------------------------*/
-function themeblogindex($aid, $informant, $time, $modified, $title, $counter, $topic, $thetext, $notes, $morelink, $topicname, $topicimage, $topictext, $writes = false) 
-{
+function themeindex($aid, $informant, $time, $title, $counter, $topic, $thetext, $notes, $morelink, $topicname, $topicimage, $topictext){
     print "\n\n<!-- THEME INDEX CONTENT START -->\n";
 	
     global $bgcolor4, $anonymous, $blogadmin, $tipath, $theme_name, $sid, $ThemeSel, $nukeurl, $customlang;
@@ -28,7 +27,7 @@ function themeblogindex($aid, $informant, $time, $modified, $title, $counter, $t
         $content = $thetext.$notes;
     else: 
 
-        if ($writes):
+        if (isset($writes)):
 
             if (!empty($informant)) :
                 $content = (is_array($informant)) ? '<a href="modules.php?name=Your_Account&amp;op=userinfo&amp;username='.$informant[0].'">'.$informant[1].'</a> ' : '<a href="modules.php?name=Your_Account&amp;op=userinfo&amp;username='.$informant.'">'.$informant.'</a> '.PHP_EOL;
@@ -62,7 +61,7 @@ print '</div>'.PHP_EOL;
 
 //content
 echo '<div align="left" id="text">'.PHP_EOL;
-echo ''.$content.''.PHP_EOL;	
+echo ''.$content.'<br/><br/>'.PHP_EOL;	
 
 print blog_signature($aid).''.PHP_EOL;
 print '</div>';
