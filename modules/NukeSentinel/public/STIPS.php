@@ -58,13 +58,18 @@ if ($totalselected > 0) {
   echo '<td align="center" width="33%"><strong>'._AB_DATE.'</strong></td>'."\n";
   echo '<td align="center" width="33%"><strong>'._AB_REASON.'</strong></td>'."\n";
   echo '</tr>'."\n";
-  $result = $db->sql_query("SELECT * FROM `".$prefix."_nsnst_blocked_ips` ORDER BY $column $direction LIMIT $min,$perpage");
+  
+  if(!isset($column)) { $column = 'ip_long'; }
+  if(!isset($direction)) { $direction = "asc"; }
+
+  $result = $db->sql_query("SELECT * FROM `".$prefix."_nsnst_blocked_ips` ORDER BY `$column` $direction LIMIT $min,$perpage");
+  
   while ($getIPs = $db->sql_fetchrow($result)) {
     $bdate = date("Y-m-d @ H:i:s", $getIPs['date']);
-    $lookupip = str_replace("*", "0", $getIPs['ip_addr']);
+    $lookupip = str_replace("*", "0", (string) $getIPs['ip_addr']);
     echo '<tr onmouseover="this.style.backgroundColor=\''.$bgcolor2.'\'" onmouseout="this.style.backgroundColor=\''.$bgcolor1.'\'" bgcolor="'.$bgcolor1.'">'."\n";
     if((is_admin() AND $ab_config['display_link']==1) OR ((is_user() OR is_admin()) AND $ab_config['display_link']==2) OR $ab_config['display_link']==3) {
-      $lookupip = str_replace("*", "0", $getIPs['ip_addr']);
+      $lookupip = str_replace("*", "0", (string) $getIPs['ip_addr']);
       $ipcontent = '<a href="'.$ab_config['lookup_link'].$lookupip.'" target="_blank">'.$getIPs['ip_addr'].'</a>';
     } else {
       $ipcontent = $getIPs['ip_addr'];
@@ -75,7 +80,7 @@ if ($totalselected > 0) {
     if((is_admin() AND $ab_config['display_reason']==1) OR ((is_user() OR is_admin()) AND $ab_config['display_reason']==2) OR $ab_config['display_reason']==3) {
       $result2 = $db->sql_query("SELECT `reason` FROM `".$prefix."_nsnst_blockers` WHERE `blocker`='".$getIPs['reason']."' LIMIT 0,1");
       list($reason) = $db->sql_fetchrow($result2);
-      $reason = str_replace("Abuse-","",$reason);
+      $reason = str_replace("Abuse-","",(string) $reason);
     }
     echo '<td align="center">'.$reason.'</td>'."\n";
     echo '</tr>'."\n";
