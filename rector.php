@@ -821,8 +821,8 @@ return static function (RectorConfig $rectorConfig): void {
 		//////__DIR__ . '/modules/News/copyright.php',
 		//////__DIR__ . '/modules/News/friend.php',
 		//////__DIR__ . '/modules/News/index.php',
-		__DIR__ . '/modules/News/print.php',
-		//__DIR__ . '/modules/News/read_article.php',
+		//////__DIR__ . '/modules/News/print.php',
+		__DIR__ . '/modules/News/read_article.php',
 		//#__DIR__ . '/modules/News/printpdf.php',
 		
 		
