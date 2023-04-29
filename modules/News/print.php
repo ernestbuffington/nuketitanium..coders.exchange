@@ -25,6 +25,10 @@
 -=[Mod]=-
       News BBCodes                             v1.0.0       08/19/2005
  ************************************************************************/
+ 
+/* Applied rules: Ernest Allen Buffington (TheGhost) 04/29/2023 5:42 PM
+ * NullToStrictStringFuncCallArgRector
+ */ 
 
 if (!defined('MODULE_FILE')) {
    die('You can\'t access this file directly...');
@@ -40,20 +44,20 @@ function PrintPage($sid) {
     global $site_logo, $nukeurl, $sitename, $datetime, $prefix, $db, $module_name;
     $sid = intval($sid);
     $row = $db->sql_fetchrow($db->sql_query("SELECT title, time, hometext, bodytext, topic, notes FROM ".$prefix."_stories WHERE sid='$sid'"));
-    $title = stripslashes(check_html($row["title"], "nohtml"));
+    $title = stripslashes((string) check_html($row["title"], "nohtml"));
     $time = $row["time"];
 /*****[BEGIN]******************************************
  [ Mod:     News BBCodes                       v1.0.0 ]
  ******************************************************/
-    $hometext = decode_bbcode(set_smilies(stripslashes($row["hometext"])), 1, true);
-    $bodytext = decode_bbcode(set_smilies(stripslashes($row["bodytext"])), 1, true);
+    $hometext = decode_bbcode(set_smilies(stripslashes((string) $row["hometext"])), 1, true);
+    $bodytext = decode_bbcode(set_smilies(stripslashes((string) $row["bodytext"])), 1, true);
 /*****[END]********************************************
  [ Mod:     News BBCodes                       v1.0.0 ]
  ******************************************************/
     $topic = intval($row["topic"]);
-    $notes = stripslashes($row["notes"]);
+    $notes = stripslashes((string) $row["notes"]);
     $row2 = $db->sql_fetchrow($db->sql_query("SELECT topictext FROM ".$prefix."_topics WHERE topicid='$topic'"));
-    $topictext = stripslashes($row2["topictext"]);
+    $topictext = stripslashes((string) $row2["topictext"]);
     formatTimestamp($time);
     echo "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">
         <html>
