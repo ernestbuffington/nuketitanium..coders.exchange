@@ -27,6 +27,10 @@
       Advanced Username Color                  v1.0.5       07/29/2005
  ************************************************************************/
 
+/* Applied rules: Ernest Allen Buffington (TheGhost) 04/29/2023 5:33 PM
+ * NullToStrictStringFuncCallArgRector
+ */
+ 
 if (!defined('MODULE_FILE')) {
    die('You can\'t access this file directly...');
 }
@@ -80,35 +84,35 @@ switch ($op) {
         $a = 0;
         while ($artinfo = $db->sql_fetchrow($result)) {
             formatTimestamp($artinfo["time"]);
-            $subject = stripslashes(check_html($subject, "nohtml"));
+            $subject = stripslashes((string) check_html($subject, "nohtml"));
 /*****[BEGIN]******************************************
  [ Mod:     News BBCodes                       v1.0.0 ]
  ******************************************************/
-            $artinfo["hometext"] =  decode_bbcode(set_smilies(stripslashes($artinfo["hometext"])), 1, true);
+            $artinfo["hometext"] =  decode_bbcode(set_smilies(stripslashes((string) $artinfo["hometext"])), 1, true);
             $artinfo["hometext"] = evo_img_tag_to_resize($artinfo["hometext"]);
 /*****[END]********************************************
  [ Mod:     News BBCodes                       v1.0.0 ]
  ******************************************************/
-            $artinfo["notes"] = stripslashes($artinfo["notes"]);
+            $artinfo["notes"] = stripslashes((string) $artinfo["notes"]);
             $artinfo["sid"] = intval($artinfo["sid"]);
-            $artinfo["aid"] = stripslashes($artinfo["aid"]);
-            $artinfo["title"] = stripslashes(check_html($artinfo["title"], "nohtml"));
+            $artinfo["aid"] = stripslashes((string) $artinfo["aid"]);
+            $artinfo["title"] = stripslashes((string) check_html($artinfo["title"], "nohtml"));
             $artinfo["comments"] = intval($artinfo["comments"]);
             $artinfo["counter"] = intval($artinfo["counter"]);
             $artinfo["topic"] = intval($artinfo["topic"]);
-            $artinfo["informant"] = stripslashes($artinfo["informant"]);
-            $artinfo["notes"] = stripslashes($artinfo["notes"]);
+            $artinfo["informant"] = stripslashes((string) $artinfo["informant"]);
+            $artinfo["notes"] = stripslashes((string) $artinfo["notes"]);
             $artinfo["acomm"] = intval($artinfo["acomm"]);
             $artinfo["score"] = intval($artinfo["score"]);
             $artinfo["ratings"] = intval($artinfo["ratings"]);
             getTopics($artinfo["sid"]);
 
             if($neconfig["texttype"] == 0) {
-                $introcount = strlen($hometext);
-                $fullcount = strlen($bodytext);
+                $introcount = strlen((string) $hometext);
+                $fullcount = strlen((string) $bodytext);
             } else {
-                $introcount = strlen(strip_tags($artinfo["hometext"], "<br />"));
-                $fullcount = strlen($artinfo["bodytext"]);
+                $introcount = strlen(strip_tags((string) $artinfo["hometext"], "<br />"));
+                $fullcount = strlen((string) $artinfo["bodytext"]);
             }
 
             $totalcount = $introcount + $fullcount;
@@ -144,7 +148,7 @@ switch ($op) {
                     }
                 } else { $morelink .= ""; }
                 if ($introcount > 255) {
-                    $artinfo["hometext"] = strip_tags($artinfo["hometext"], "<br />");
+                    $artinfo["hometext"] = strip_tags((string) $artinfo["hometext"], "<br />");
                     $artinfo["hometext"] = substr($artinfo["hometext"], 0, 255);
                 }
             }
