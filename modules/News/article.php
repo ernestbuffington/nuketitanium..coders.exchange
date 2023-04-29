@@ -27,6 +27,10 @@
       Advanced Username Color                  v1.0.5       07/29/2005
       News BBCodes                             v1.0.0       08/19/2005
  ************************************************************************/
+ 
+/* Applied rules: Ernest Allen Buffington (TheGhost) 04/29/2023 5:30 PM
+ * NullToStrictStringFuncCallArgRector
+ */ 
 
 if (!defined('MODULE_FILE')) {
    die('You can\'t access this file directly...');
@@ -45,7 +49,7 @@ if(!isset($op)) { $op = ''; }
 
 if (isset($sid)) { $sid = intval($sid); } else { $sid = ""; }
 
-if (stristr($_SERVER['REQUEST_URI'],"mainfile")) {
+if (stristr((string) $_SERVER['REQUEST_URI'],"mainfile")) {
     redirect("modules.php?name=$module_name&file=article&sid=$sid");
 } elseif (empty($sid) && !isset($tid)) {
     redirect("index.php");
@@ -74,23 +78,23 @@ if (!empty($sid) && $numrows != 1) {
 }
 $row = $db->sql_fetchrow($result);
 $db->sql_freeresult($result);
-$aaid = stripslashes($row['aid']);
+$aaid = stripslashes((string) $row['aid']);
 $catid = intval($row["catid"]);
 $time = $row["time"];
-$title = stripslashes(check_html($row["title"], "nohtml"));
+$title = stripslashes((string) check_html($row["title"], "nohtml"));
 /*****[BEGIN]******************************************
  [ Mod:     News BBCodes                       v1.0.0 ]
  ******************************************************/
-$hometext = decode_bbcode(set_smilies(stripslashes($row["hometext"])), 1, true);
-$bodytext = decode_bbcode(set_smilies(stripslashes($row["bodytext"])), 1, true);
+$hometext = decode_bbcode(set_smilies(stripslashes((string) $row["hometext"])), 1, true);
+$bodytext = decode_bbcode(set_smilies(stripslashes((string) $row["bodytext"])), 1, true);
 $hometext = img_tag_to_resize($hometext);
 $bodytext = img_tag_to_resize($bodytext);
 /*****[END]********************************************
  [ Mod:     News BBCodes                       v1.0.0 ]
  ******************************************************/
 $topic = intval($row["topic"]);
-$informant = stripslashes($row["informant"]);
-$notes = stripslashes($row["notes"]);
+$informant = stripslashes((string) $row["informant"]);
+$notes = stripslashes((string) $row["notes"]);
 $acomm = intval($row["acomm"]);
 $haspoll = intval($row["haspoll"]);
 $pollID = intval($row["pollID"]);
@@ -116,9 +120,9 @@ include(NUKE_BASE_DIR."header.php");
 $artpage = 0;
 
 formatTimestamp($time);
-$title = stripslashes(check_html($title, "nohtml"));
-$hometext = stripslashes($hometext);
-$bodytext = stripslashes($bodytext);
+$title = stripslashes((string) check_html($title, "nohtml"));
+$hometext = stripslashes((string) $hometext);
+$bodytext = stripslashes((string) $bodytext);
 $notes = stripslashes($notes);
 
 if (!empty($notes)) {
@@ -143,7 +147,7 @@ getTopics($sid);
 
 if ($catid != 0) {
     $row2 = $db->sql_fetchrow($db->sql_query("select title from ".$prefix."_stories_cat where catid='$catid'"));
-    $title1 = stripslashes(check_html($row2["title"], "nohtml"));
+    $title1 = stripslashes((string) check_html($row2["title"], "nohtml"));
     $title = "<a href=\"modules.php?name=$module_name&amp;file=categories&amp;op=newindex&amp;catid=$catid\"><font class=\"storycat\">$title1</font></a>: $title";
 }
 
@@ -183,7 +187,7 @@ if ($haspoll == 1) {
     $boxContent .= "<input type=\"hidden\" name=\"pollID\" value=\"".$pollID."\">";
     $boxContent .= "<input type=\"hidden\" name=\"forwarder\" value=\"".$url."\">";
     $row3 = $db->sql_fetchrow($db->sql_query("SELECT pollTitle, voters FROM ".$prefix."_poll_desc WHERE pollID='$pollID'"));
-    $pollTitle = stripslashes(check_html($row3["pollTitle"], "nohtml"));
+    $pollTitle = stripslashes((string) check_html($row3["pollTitle"], "nohtml"));
     $voters = $row3["voters"];
     $boxTitle = _ARTICLEPOLL;
     $boxContent .= "<span class=\"content\"><strong>$pollTitle</strong></span><br /><br />\n";
@@ -224,8 +228,8 @@ $boxtitle = ""._RELATED."";
 $boxstuff = "<span class=\"content\">";
 $result8 = $db->sql_query("select name, url from ".$prefix."_related where tid='$topic'");
 while ($row8 = $db->sql_fetchrow($result8)) {
-    $name = stripslashes($row8["name"]);
-    $url = stripslashes($row8["url"]);
+    $name = stripslashes((string) $row8["name"]);
+    $url = stripslashes((string) $row8["url"]);
     $boxstuff .= "<strong><big>&middot;</big></strong>&nbsp;<a href=\"$url\" target=\"new\">$name</a><br />\n";
 }
 $db->sql_freeresult($result8);
@@ -243,7 +247,7 @@ global $multilingual, $currentlang;
     }
 $row9 = $db->sql_fetchrow($db->sql_query("select sid, title from ".$prefix."_stories where topic='$topic' $querylang order by counter desc limit 0,1"));
 $topstory = intval($row9["sid"]);
-$ttitle = stripslashes(check_html($row9["title"], "nohtml"));
+$ttitle = stripslashes((string) check_html($row9["title"], "nohtml"));
 
 $boxstuff .= "<a href=\"modules.php?name=$module_name&amp;file=article&amp;sid=$topstory\">$ttitle</a></span></center><br />\n";
 themesidebox($boxtitle, $boxstuff, "newstopic");
