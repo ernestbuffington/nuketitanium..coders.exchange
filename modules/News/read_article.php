@@ -27,6 +27,11 @@
       Advanced Username Color                  v1.0.5       07/29/2005
       News BBCodes                             v1.0.0       08/19/2005
  ************************************************************************/
+ 
+/* Applied rules: Ernest Allen Buffington (TheGhost) 04/29/2023 5:44 PM
+ * SetCookieRector (https://www.php.net/setcookie https://wiki.php.net/rfc/same-site-cookie)
+ * NullToStrictStringFuncCallArgRector
+ */ 
 
 if (!defined('MODULE_FILE')) {
    die('You can\'t access this file directly...');
@@ -34,14 +39,14 @@ if (!defined('MODULE_FILE')) {
 
 global $cookie, $userinfo;
 
-@include_once(NUKE_INCLUDE_DIR.'counter.php');
+include_once(NUKE_INCLUDE_DIR.'counter.php');
 
 $module_name = basename(dirname(__FILE__));
 get_lang($module_name);
 
 $sid = (int) $sid;
 
-if (stristr($REQUEST_URI,"mainfile")) {
+if (stristr((string) $REQUEST_URI,"mainfile")) {
     redirect("modules.php?name=$module_name&file=read_article&sid=$sid");
 } elseif (!isset($sid) && !isset($tid)) {
     redirect("index.php");
@@ -50,7 +55,7 @@ if (stristr($REQUEST_URI,"mainfile")) {
 if ($save AND is_user()) {
     $db->sql_query("UPDATE ".$user_prefix."_users SET umode='$mode', uorder='$order', thold='$thold' where uid='$cookie[0]'");
     $info = base64_encode("$userinfo[user_id]:$userinfo[username]:$userinfo[user_password]:$userinfo[storynum]:$userinfo[umode]:$userinfo[uorder]:$userinfo[thold]:$userinfo[noscore]");
-    setcookie("user","$info",time()+$cookieusrtime);
+    setcookie("user","$info",['expires' => time()+$cookieusrtime]);
 }
 
 if ($op == "Reply") {
@@ -68,7 +73,7 @@ $catid = $row["catid"];
 /*****[BEGIN]******************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
  ******************************************************/
-$aid['name'] = stripslashes($row["aid"]);
+$aid['name'] = stripslashes((string) $row["aid"]);
 $aid['color'] = UsernameColor($aid['name']);
 /*****[END]********************************************
  [ Mod:    Advanced Username Color             v1.0.5 ]
@@ -78,8 +83,8 @@ $title = $row["title"];
 /*****[BEGIN]******************************************
  [ Mod:     News BBCodes                       v1.0.0 ]
  ******************************************************/
-$hometext = decode_bbcode(set_smilies(stripslashes($row["hometext"])), 1, true);
-$bodytext = decode_bbcode(set_smilies(stripslashes($row["bodytext"])), 1, true);
+$hometext = decode_bbcode(set_smilies(stripslashes((string) $row["hometext"])), 1, true);
+$bodytext = decode_bbcode(set_smilies(stripslashes((string) $row["bodytext"])), 1, true);
 $bodytext = evo_img_tag_to_resize($bodytext);
 $hometext = evo_img_tag_to_resize($hometext);
 /*****[END]********************************************
@@ -109,10 +114,10 @@ $Theme_Sel = get_theme();
     echo "<body>\n";
 $artpage = 0;
 formatTimestamp($time);
-$title = stripslashes($title);
-$hometext = stripslashes($hometext);
-$bodytext = stripslashes($bodytext);
-$notes = stripslashes($notes);
+$title = stripslashes((string) $title);
+$hometext = stripslashes((string) $hometext);
+$bodytext = stripslashes((string) $bodytext);
+$notes = stripslashes((string) $notes);
 if($notes != "") { $notes = "<br /><br /><strong><i>"._NOTE." $notes</i></strong>"; } else { $notes = ""; }
 if(empty($bodytext)) { $bodytext = "$hometext$notes"; } else { $bodytext = "$hometext<br /><br />$bodytext$notes"; }
 if(empty($informant)) {
