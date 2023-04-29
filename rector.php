@@ -691,8 +691,8 @@ return static function (RectorConfig $rectorConfig): void {
 		#NukeTitanium: modules/Downloads
 		
 		#NukeTitanium: modules/Encyclopedia
-		__DIR__ . '/modules/Encyclopedia/admin/index.php',
-		//__DIR__ . '/modules/Encyclopedia/index.php',
+		//////__DIR__ . '/modules/Encyclopedia/admin/index.php',
+		__DIR__ . '/modules/Encyclopedia/index.php',
 		//__DIR__ . '/modules/Encyclopedia/searh.php',
 		
 		#NukeTitanium: modules/ErrorDocuments
