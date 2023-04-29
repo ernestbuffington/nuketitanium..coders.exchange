@@ -1,0 +1,37 @@
+:root {
+	--main-table-wrapper-margin: 20px;
+}
+
+.forum-news-container {
+	padding: 10px;
+}
+
+.forum-news-container p {
+	line-height: 1.5;
+}
+
+.forum-news-icon {
+	margin-right: 5px;
+	vertical-align: middle;
+}
+
+.forum-news-pagination {
+	text-align: center;
+}
+
+.forum-news-pagination a,
+.forum-news-pagination-label {
+	text-decoration: none;
+	font-weight: 700;
+	padding: 2px 5px;
+}
+
+.forum-news-pagination-label.is-disabled {
+	font-weight: normal;
+	pointer-events: none;
+}
+
+.forum-news-smilies {
+	vertical-align: middle;
+}
+
