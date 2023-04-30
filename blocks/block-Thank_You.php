@@ -31,9 +31,14 @@ $content .= 'firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);';
 $content .= 'var player;';
 $content .= 'function onYouTubeIframeAPIReady() {';
 $content .= "player = new YT.Player('player', {";
-$content .= "height: '390',";
-$content .= "width: '640',";
-$content .= "videoId: 'kJHpJKMTDQA',";
+$content .= "height: '315',";
+$content .= "width: '560',";
+//$content .= "videoId: 'CR6xzjC-Ptc',"; // BlackTop Mojo Can't Sleep
+//$content .= "videoId: 'SrbRMvYOvLg',"; // BlackTop Mojo It Won't Last
+//$content .= "videoId: 'S28nIDn682I',"; // Sully Erna - Until Then
+//$content .= "videoId: 'LUkqBRC1zUA',"; // Cinderella - Somebody Save Me
+$content .= "videoId: 'LUkqBRC1zUA',"; // 
+
 $content .= 'events: {';
 $content .= "'onReady': onPlayerReady,";
 $content .= "'onStateChange': onPlayerStateChange";
